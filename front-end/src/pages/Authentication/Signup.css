@@ -1,0 +1,152 @@
+.Signup {
+    background-color: #7d2ae8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
+    font-family: Arial, Helvetica, sans-serif;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: 400;
+  }
+  
+  .Signup .container {
+    min-width: 840px;
+    min-height: 200px;
+    background-color: white;
+    display: flex;
+  }
+  
+  .Signup .image {
+    background: url("./images/backImg.jpg");
+    background-size: cover;
+    width: 50%;
+    /* min-height: 200px; */
+  }
+  
+  .Signup .form {
+    height: 100%;
+    width: 50%;
+    /* background-color: azure; */
+    /* border: 2px solid red; */
+  }
+  
+  .Signup .form-content {
+    /* border: 2px solid yellow; */
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+  
+  .Signup .title {
+    /* border: 2px solid yellow; */
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 20px;
+    font-size: 25px;
+  }
+  
+  .Signup .title span {
+    text-decoration: underline;
+    text-decoration-color: #7d2ae8;
+    text-decoration-thickness: 5px;
+    text-underline-offset: 4px;
+  }
+  
+  .Signup .input-boxes {
+    margin-top: 30px;
+    width: 100%;
+    /* border: 2px solid yellow; */
+  }
+  
+  .Signup .input-box {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    margin: 10px 0;
+    position: relative;
+  }
+  
+  
+  .Signup .input-box input
+  {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0 15px;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    /* border: 2px solid red; */
+    outline: none;
+  }
+  
+  .Signup .input-box input:focus,
+  .Signup .input-box input:valid
+  {
+    border-color: #7d2ae8;
+  
+  }
+  
+  
+  .Signup .text
+  {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 18px;
+  }
+  
+  .Signup .text a 
+  {
+    text-decoration: none;
+    color:#7d2ae8;
+    cursor: pointer;
+  }
+  
+  .Signup .text a:hover
+  {
+    text-decoration: underline;
+  }
+  
+  .Signup .button
+  {
+    color: #fff;
+    margin-top: 20px;
+  }
+  
+  .button input {
+    color: #fff;
+    background: #7d2ae8;
+    border-radius: 6px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.4s ease;
+  }
+  
+  .sign-up-text
+  {
+    text-align: center;
+    margin-top: 25px;
+  }
+
+
+  .user-type
+  {
+    margin-top: 16px;
+    font-family: cursive;
+    /* border: 2px solid red; */
+    padding: 20px;
+  }
+
+  .user-type>div{
+    margin-top: 20px;
+  }
