@@ -1,10 +1,12 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./Signup.css";
 import studentImageChecked from "./images/student-checked.png";
 import studentImage from "./images/student.png";
 import teacherImageChecked from "./images/teacher-checked.png";
 import teacherImage from "./images/teacher.png";
-import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -12,22 +14,42 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-      console.log(name+" "+email+" "+password+" "+userType)
-    // handle validation and send post request
 
-    
+    // handle validation
 
-
+    try {
+      const respose = await axios.post("http://localhost:8080/api/users", {
+        name: name,
+        email: email,
+        password: password,
+        type: userType,
+      });
+      if (respose.status === 200)
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "Account Created Successfully!",
+        });
+        navigate('/')
+    } catch (error) {
+        if(error.status === 409)  
+        {
+          Swal.fire({
+            icon: "error",
+            title: "Failed!",
+            text: "Email already exists!",
+          })
+        }
+    }
   };
 
   return (
     <div className="Signup">
-      <div className="container">
+      <div className="container p-0 ">
         <div className="image"></div>
         <div className="form">
           <form onSubmit={handleSignup}>
@@ -36,8 +58,8 @@ const Signup = () => {
                 <span>Si</span>gnup
               </div>
               <div className="input-boxes">
-                <div class="input-box">
-                  <i class="fas fa-user"></i>
+                <div className="input-box">
+                  <i className="fas fa-user"></i>
                   <input
                     type="text"
                     placeholder="Enter your name"
@@ -106,7 +128,8 @@ const Signup = () => {
                   <input type="submit" value="Sumbit" />
                 </div>
                 <div className="text s  ign-up-text">
-                  Already Have an Account ? <a onClick={()=>navigate("/login")}>Login now</a>{" "}
+                  Already Have an Account ?{" "}
+                  <a onClick={() => navigate("/login")}>Login now</a>{" "}
                 </div>
               </div>
             </div>

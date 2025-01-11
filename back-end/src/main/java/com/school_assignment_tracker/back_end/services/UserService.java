@@ -26,19 +26,17 @@ public class UserService {
     }
 
     public Optional<User> validateLogin(String email, String password) {
-        Optional<User> user=userRepo.findByEmail(email);
+           Optional<User> user=userRepo.findByEmail(email);
 
-        if(user.isPresent())
-        {
-            if(user.get().getPassword().matches(password))
+           if(user.get().getPassword().matches(password))
                 return user;
-        }
-
-        return Optional.empty();
+           return Optional.empty();
     }
 
-    public Optional<User> getUsersByName(String sakthi) {
-        Optional<User> users=userRepo.findByName(sakthi) ;
-        return users;
+
+    public Optional<User> validateEmail(String email) {
+        Optional<User> user=userRepo.findByEmail(email);
+
+        return user;
     }
 }

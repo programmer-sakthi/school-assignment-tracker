@@ -1,0 +1,31 @@
+.TeacherDashBoard {
+
+    min-height: 100vh;
+    width: 100%;
+}
+
+.TeacherDashBoard .header{
+    width: 100%;
+    border: 2px solid red;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.TeacherDashBoard .header button {
+    margin: 10px;
+    height: 80px;
+    width: 80px;    
+    border-radius: 50%;
+    background: none;
+    /* background-color: grey  ; */
+    padding: 10px;  
+    border: none;
+    outline: none;
+    font-size: 60px;
+}
+
+.TeacherDashBoard .header button:hover {
+
+    background-color: grey  ;
+
+}

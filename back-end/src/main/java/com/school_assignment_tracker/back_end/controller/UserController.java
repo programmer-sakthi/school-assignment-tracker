@@ -25,8 +25,19 @@ public class UserController {
 
     // to create a new user("Signup")
     @PostMapping("/users")
-    public void addUser(@RequestBody User user) {
+    public ResponseEntity<String> addUser(@RequestBody User user) {
+
+        String email=user.getEmail();
+        Optional<User> user1 = userService.validateEmail(email);
+
+        if (user1.isPresent()) {
+            return ResponseEntity.status(409).body("Email already exists !");
+        }
+
         userService.addUser(user);
+        return ResponseEntity.ok("User Created Successfully ! ");
+
+
     }
 
     // to get all available users
@@ -39,29 +50,33 @@ public class UserController {
 
     @PostMapping("/validate-login")
     public ResponseEntity<String> validateLogin(@RequestBody UserLogin u) {
-        String email=u.getEmail();
-        String password=u.getPassword();
-        System.out.println(email+password);
-        Optional<User> user = userService.validateLogin(email, password);
+        String email = u.getEmail();
+        String password = u.getPassword();
+        Optional<User> user = userService.validateEmail(email);
 
-        if (user.isPresent()) {
-            return ResponseEntity.ok("User validated successfully");
+        if (!user.isPresent()) {
+            return ResponseEntity.status(401).body("Email doesn't exist !");
         } else {
-            return ResponseEntity.status(401).body("Invalid email or password");
+            user = userService.validateLogin(email, password);
+
+            if (user.isPresent()) {
+                return ResponseEntity.ok("User validated successfully");
+            } else {
+                return ResponseEntity.status(401).body("Invalid Password !");
+
+            }
+
         }
 
-    }   
+    }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class UserLogin
-    {
+    public static class UserLogin {
         private String email;
         private String password;
     }
-
-
 
 
 }

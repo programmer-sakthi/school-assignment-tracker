@@ -1,10 +1,11 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import "./App.css";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
-import Home from "./pages/Home/Home";
+import DashBoard from "./pages/DashBoard/DashBoard";
 import PageNotFound from "./pages/Error/PageNotFound";
-import './App.css'
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<DashBoard />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>

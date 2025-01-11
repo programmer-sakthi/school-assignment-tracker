@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./Login.css";
+import frontImg from "./images/frontImg.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,24 +24,36 @@ const Login = () => {
       );
       console.log(response);
       if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "User Logged in Succesfully",
+        });
         navigate("/");
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        alert(error.response.data || "Access forbidden: Invalid credentials");
+        Swal.fire({
+          icon: "error",
+          title: "Failed!",
+          text: error.response.data || "Access forbidden: Invalid credentials",
+        });
       } else {
-        console.log(error);
-        alert("An error occurred. Please try again.");
+        Swal.fire({
+          icon: "error",
+          title: "Failed!",
+          text: "An error occurred. Please try again.",
+        });
       }
     }
   };
 
   return (
     <div className="Login">
-      <div className="container">
+      <div className="container p-0">
         <div className="form">
           <form onSubmit={handleSubmit}>
-            <div className="form-content">
+            <div className="form-content p-0 m-0">
               <div className="title">
                 <span>Lo</span>gin
               </div>
@@ -80,7 +94,9 @@ const Login = () => {
             </div>
           </form>
         </div>
-        <div className="image"></div>
+        <div className="image p-0 m-0">
+          <img src={frontImg} alt="icon" />
+        </div>
       </div>
     </div>
   );
