@@ -29,7 +29,7 @@ const Login = () => {
           title: "Success!",
           text: "User Logged in Succesfully",
         });
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {

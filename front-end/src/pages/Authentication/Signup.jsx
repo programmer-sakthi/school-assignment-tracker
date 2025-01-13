@@ -34,7 +34,7 @@ const Signup = () => {
           title: "Success!",
           text: "Account Created Successfully!",
         });
-        navigate('/')
+        navigate('/dashboard')
     } catch (error) {
         if(error.status === 409)  
         {

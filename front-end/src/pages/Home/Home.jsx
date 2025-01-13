@@ -8,7 +8,7 @@ const Home = () => {
   const typer = useRef(null);
   useEffect(() => {
     const typed = new Typed(typer.current, {
-      strings: ["Easy!", "Effective!"],
+      strings: ["Easy!", "Efficient!" , "Effortless!"],
       typeSpeed: 100,
       backSpeed: 100,
       loop: true,
@@ -17,8 +17,7 @@ const Home = () => {
     return () => {
       typed.destroy(); // Cleanup the Typed instance when the component unmounts
     };
-  }, []); // The empty dependency array ensures this effect runs only once (on mount)
-
+  }, []);
   return (
     <div className="Home">
       <div>
@@ -30,13 +29,13 @@ const Home = () => {
         </div>
         <div className="buttons row justify-content-around mt-5">
           <button
-            className="col-auto btn btn-primary"
+            className="col-auto btn btn-primary p-3"
             onClick={() => navigate("/login")}
           >
             Login
           </button>
           <button
-            className="col-auto btn btn-outline-info"
+            className="col-auto btn btn-outline-info p-3"
             onClick={() => navigate("/signup")}
           >
             Join for free
