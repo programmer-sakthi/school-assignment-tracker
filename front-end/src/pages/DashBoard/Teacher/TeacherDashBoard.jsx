@@ -1,6 +1,7 @@
 import React, {useState } from "react";
 import DashboardOverview from './DashBoardOverview';
-import InstitutionManagement from "./InstitutionManagement";
+import InstitutionManagement from "./Institute Management/InstitutionManagement";
+import ClassManagement from "./Class Management/ClassManagement";
 import "./TeacherDashboard.css";
 
 
@@ -60,12 +61,7 @@ const TeacherDashboard = () => {
   );
 };
 
-const ClassManagement = () => (
-  <div>
-    <h3>Manage Classes</h3>
-    <p>Class management tools will go here...</p>
-  </div>
-);
+
 
 const SectionManagement = () => (
   <div>
