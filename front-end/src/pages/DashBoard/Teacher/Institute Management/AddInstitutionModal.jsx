@@ -46,7 +46,13 @@ const AddInstitutionModal = () => {
           <ModalHeader>Create an institution</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Upload File</FormLabel>
+
+              <input type="file" className="form-control" />
+            </FormControl>
+
+            <FormControl mt={4}>
               <FormLabel>Institution Name</FormLabel>
               <Input
                 ref={initialRef}
@@ -64,10 +70,14 @@ const AddInstitutionModal = () => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={ () =>{
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={() => {
                 // send post request to add the institution
-                onClose()
-            }}>
+                onClose();
+              }}
+            >
               Save
             </Button>
             <Button onClick={onClose}>Cancel</Button>

@@ -2,6 +2,7 @@ import React, {useState } from "react";
 import DashboardOverview from './DashBoardOverview';
 import InstitutionManagement from "./Institute Management/InstitutionManagement";
 import ClassManagement from "./Class Management/ClassManagement";
+import SectionManagement from "./Section Management/SectionManagement";
 import "./TeacherDashboard.css";
 
 
@@ -63,12 +64,7 @@ const TeacherDashboard = () => {
 
 
 
-const SectionManagement = () => (
-  <div>
-    <h3>Manage Sections</h3>
-    <p>Section management tools will go here...</p>
-  </div>
-);
+
 
 const InvitationSystem = () => (
   <div>
