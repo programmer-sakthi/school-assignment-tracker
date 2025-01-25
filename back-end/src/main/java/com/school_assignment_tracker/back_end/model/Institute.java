@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Institute {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY) // Or GenerationType.AUTO
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Or GenerationType.AUTO
     @JsonProperty("id")
     private Long id;
 
@@ -24,5 +24,12 @@ public class Institute {
     @Column(name="description")
     @JsonProperty("description")
     private String description;
+
+
+    private String imageName;
+    private String imageType;
+
+    @Lob
+    private byte[] imageData;
 
 }

@@ -4,6 +4,8 @@ import InstitutionManagement from "./Institute Management/InstitutionManagement"
 import ClassManagement from "./Class Management/ClassManagement";
 import SectionManagement from "./Section Management/SectionManagement";
 import "./TeacherDashboard.css";
+import StudentManagement from "./Student Management/StudentManagement";
+import AssignmentManagement from "./Assignment Management/AssignmentManagement";
 
 
 const TeacherDashboard = () => {
@@ -14,7 +16,7 @@ const TeacherDashboard = () => {
     "Institutions",
     "Classes",
     "Sections",
-    "Invitations",
+    "Student Management",
     "Assignments",
     "Settings",
   ];
@@ -29,10 +31,10 @@ const TeacherDashboard = () => {
         return <ClassManagement />;
       case "Sections":
         return <SectionManagement />;
-      case "Invitations":
-        return <InvitationSystem />;
+      case "Student Management":
+        return <StudentManagement />;
       case "Assignments":
-        return <AssignmentPosting />;
+        return <AssignmentManagement />;
       case "Settings":
         return <Settings />;
       default:
@@ -64,15 +66,6 @@ const TeacherDashboard = () => {
 
 
 
-
-
-const InvitationSystem = () => (
-  <div>
-    <h3>Send Invitations</h3>
-    <button className="primary-btn">Send Invite</button>
-    <p>Pending invitations will go here...</p>
-  </div>
-);
 
 const AssignmentPosting = () => (
   <div>

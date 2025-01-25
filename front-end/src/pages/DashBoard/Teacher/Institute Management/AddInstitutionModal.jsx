@@ -12,16 +12,46 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useRef, useState } from "react";
 
-const AddInstitutionModal = () => {
+const AddInstitutionModal = ({ onInstituteAdded }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [instituteName, setInstituteName] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState(null);
 
   const initialRef = useRef(null);
-  //   const finalRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const institute = {
+      instituteName: instituteName,
+      description: description,
+    };
+    formData.append("imageFile", image);
+    formData.append(
+      "institute",
+      new Blob([JSON.stringify(institute)], { type: "application/json" })
+    );
+
+    axios
+      .post("http://localhost:8080/api/institutes", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("Institution added successfully:", response.data);
+        alert("Institution added successfully");
+        onInstituteAdded();
+      })
+      .catch((error) => {
+        console.error("Error adding institution:", error);
+        alert("Failed to add institution");
+      });
+  };
 
   const Overlay = () => (
     <ModalOverlay
@@ -32,7 +62,7 @@ const AddInstitutionModal = () => {
 
   return (
     <div className="m-4">
-      <button className="primary-btn" onClick={() => onOpen()}>
+      <button className="primary-btn" onClick={onOpen}>
         Add New Institution
       </button>
       <Modal
@@ -43,45 +73,46 @@ const AddInstitutionModal = () => {
       >
         {Overlay()}
         <ModalContent>
-          <ModalHeader>Create an institution</ModalHeader>
+          <ModalHeader>Create an Institution</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl mt={4}>
-              <FormLabel>Upload File</FormLabel>
+            <form onSubmit={handleSubmit}>
+              <FormControl mt={4}>
+                <FormLabel>Upload File</FormLabel>
+                <input
+                  type="file"
+                  className="form-control"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              </FormControl>
 
-              <input type="file" className="form-control" />
-            </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Institution Name</FormLabel>
+                <Input
+                  ref={initialRef}
+                  placeholder="Name of institution"
+                  value={instituteName}
+                  onChange={(e) => setInstituteName(e.target.value)}
+                />
+              </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Institution Name</FormLabel>
-              <Input
-                ref={initialRef}
-                placeholder="Name of institution"
-                onChange={(e) => setInstituteName(e.target.value)}
-              />
-            </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Description</FormLabel>
+                <Input
+                  placeholder="Describe the institution"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Input
-                placeholder="describe about institution"
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </FormControl>
+              <ModalFooter>
+                <Button colorScheme="blue" mr={3} type="submit">
+                  Save
+                </Button>
+                <Button onClick={onClose}>Cancel</Button>
+              </ModalFooter>
+            </form>
           </ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={() => {
-                // send post request to add the institution
-                onClose();
-              }}
-            >
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </div>

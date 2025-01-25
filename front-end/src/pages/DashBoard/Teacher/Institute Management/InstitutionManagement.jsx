@@ -1,35 +1,95 @@
-import AddInstitutionModal from "./AddInstitutionModal";
+import { SimpleGrid } from "@chakra-ui/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import InstitutionCard from "./InstitutionCard";
+
 const InstitutionManagement = () => {
-    const instituteData = [
-      {
-        imageURL: "https://skcet.ac.in/wp-content/uploads/2023/12/Library-page-image.jpg",
-        instituteName: "SKCET",
-        classCount: 10,
-        teacherCount: 60,
-        studentCount: 700,
-      },
-      {
-        imageURL: "https://skct.edu.in/wp-content/uploads/2024/04/SKCT-College-Campus-7.jpg",
-        instituteName: "SKCT",
-        classCount: 8,
-        teacherCount: 50,
-        studentCount: 500,
-      }
-    ];
-  
-    return (
-      <div>
-        <h3>Manage Institutions</h3>
-        <AddInstitutionModal />
-        <h3>Institutions</h3>
-        <div className="d-flex flex-wrap justify-content-around" >
-          {instituteData.map((institute) => {
-            return <InstitutionCard institute={institute} />;
-          })}
-        </div>
-      </div>
-    );
+  const [instData, setInstData] = useState([]); // State for institution data
+  const [fetchData, setFetchData] = useState(true); // State to show the loader
+  const [images, setImages] = useState({}); // Store images by institution ID
+
+  // Function to fetch institutions and their corresponding images
+  const fetchInstitutes = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/institutes");
+      console.log("Institutes data:", response.data);
+
+      // Filter institutions that have valid image data
+      const filteredData = response.data.filter(
+        (inst) => inst.imageData !== null && inst.imageData !== undefined
+      );
+
+      // Fetch images for each institution
+      const imagePromises = filteredData.map(async (institute) => {
+        try {
+          const imageResponse = await axios.get(
+            `http://localhost:8080/api/institutes/${institute.id}/image`,
+            {
+              responseType: "blob",
+            }
+          );
+          return {
+            id: institute.id,
+            imageURL: URL.createObjectURL(imageResponse.data),
+          };
+        } catch (error) {
+          console.error(
+            "Error fetching image for institute:",
+            institute.id,
+            error
+          );
+          return { id: institute.id, imageURL: null }; // Fallback for errors
+        }
+      });
+
+      const imageResults = await Promise.all(imagePromises);
+
+      const updatedInstitutes = filteredData.map((institute) => ({
+        ...institute,
+        imageURL:
+          imageResults.find((img) => img.id === institute.id)?.imageURL || null,
+      }));
+
+      setInstData(updatedInstitutes);
+      console.log(updatedInstitutes);
+      setFetchData(false);
+    } catch (error) {
+      console.error("Error fetching institutes:", error);
+      setFetchData(false);
+    }
   };
 
-  export default InstitutionManagement;
+  // Function called when a new institution is added
+  const onInstituteAdded = () => {
+    setFetchData(true); // Show the loader
+    fetchInstitutes(); // Re-fetch the institutions
+  };
+
+  // useEffect to fetch institution data on component mount
+  useEffect(() => {
+    fetchInstitutes();
+  }, []);
+
+  return (
+    <div>
+      <SimpleGrid columns={[1, 2, 3]} spacing={6}>
+        {instData.map((institution) => (
+          <InstitutionCard
+            key={institution.id}
+            institute={institution}
+            onUpdate={(updatedInstitute) => {
+              // Handle update logic
+              console.log("Updating institute:", updatedInstitute);
+            }}
+            onDelete={(id) => {
+              // Handle delete logic
+              console.log("Deleting institute with ID:", id);
+            }}
+          />
+        ))}
+      </SimpleGrid>
+    </div>
+  );
+};
+
+export default InstitutionManagement;
