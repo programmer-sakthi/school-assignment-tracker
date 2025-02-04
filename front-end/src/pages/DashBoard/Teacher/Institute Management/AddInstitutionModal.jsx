@@ -27,7 +27,7 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
     e.preventDefault();
     const formData = new FormData();
     const institute = {
-      instituteName: instituteName,
+      name: instituteName,
       description: description,
     };
     formData.append("imageFile", image);
@@ -46,6 +46,10 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
         console.log("Institution added successfully:", response.data);
         alert("Institution added successfully");
         onInstituteAdded();
+        onClose();
+        setInstituteName("");
+        setDescription("");
+        setImage(null);
       })
       .catch((error) => {
         console.error("Error adding institution:", error);
@@ -74,11 +78,31 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
         {Overlay()}
         <ModalContent>
           <ModalHeader>Create an Institution</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={ () => {
+            onClose()
+            setImage(null)
+            setInstituteName("")
+            setDescription("")
+          }} />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit}>
               <FormControl mt={4}>
-                <FormLabel>Upload File</FormLabel>
+                <FormLabel>Image Preview</FormLabel>
+                {image && (
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt="Image Preview"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      objectFit: "cover",
+                      borderRadius: "4px",
+                    }}
+                  />
+                )}
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Upload Image</FormLabel>
                 <input
                   type="file"
                   className="form-control"
@@ -95,7 +119,6 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
                   onChange={(e) => setInstituteName(e.target.value)}
                 />
               </FormControl>
-
               <FormControl mt={4}>
                 <FormLabel>Description</FormLabel>
                 <Input
@@ -109,7 +132,13 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
                 <Button colorScheme="blue" mr={3} type="submit">
                   Save
                 </Button>
-                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={ () => {
+                  onClose()
+                  setImage(null)
+                  setInstituteName("")
+                  setDescription("")  
+                }
+                }>Cancel</Button>
               </ModalFooter>
             </form>
           </ModalBody>

@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,10 +22,10 @@ import com.school_assignment_tracker.back_end.services.InstituteService;
 
 import lombok.Data;
 
-@Data
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
+@Data
 public class InstituteController {
     @Autowired
     private InstituteService instituteService;
@@ -51,6 +53,25 @@ public class InstituteController {
         byte[] imageFile = institute.getImageData();
 
         return ResponseEntity.ok().contentType(MediaType.valueOf(institute.getImageType())).body(imageFile);
+    }
+
+    @DeleteMapping("/institutes/{instituteId}")
+    public ResponseEntity<String> deleteInstitute(@PathVariable long instituteId) {
+        instituteService.deleteInstitute(instituteId);
+        return ResponseEntity.ok("Deleted successfully");
+    }
+
+    @PutMapping("/institutes/{instituteId}")
+    public ResponseEntity<String> updateInstitute(@PathVariable long instituteId,
+            @RequestPart("institute") Institute institute,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+        try {
+            instituteService.updateInstitute(instituteId, institute, imageFile);
+            return ResponseEntity.ok("Updated Successfully");
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
     }
 
 }

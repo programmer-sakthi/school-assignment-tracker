@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface InstituteRepo extends JpaRepository<Institute , Long> {
     Optional<Institute> findById(Long id);
+    void deleteById(Long id);
 }

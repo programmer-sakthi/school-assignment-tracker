@@ -1,6 +1,7 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import AddInstitutionModal from "./AddInstitutionModal";
 import InstitutionCard from "./InstitutionCard";
 
 const InstitutionManagement = () => {
@@ -12,9 +13,7 @@ const InstitutionManagement = () => {
   const fetchInstitutes = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/institutes");
-      console.log("Institutes data:", response.data);
-
-      // Filter institutions that have valid image data
+      
       const filteredData = response.data.filter(
         (inst) => inst.imageData !== null && inst.imageData !== undefined
       );
@@ -31,6 +30,7 @@ const InstitutionManagement = () => {
           return {
             id: institute.id,
             imageURL: URL.createObjectURL(imageResponse.data),
+            image : imageResponse.data
           };
         } catch (error) {
           console.error(
@@ -48,6 +48,7 @@ const InstitutionManagement = () => {
         ...institute,
         imageURL:
           imageResults.find((img) => img.id === institute.id)?.imageURL || null,
+        image : imageResults.find((img) => img.id === institute.id)?.image || null,
       }));
 
       setInstData(updatedInstitutes);
@@ -72,18 +73,18 @@ const InstitutionManagement = () => {
 
   return (
     <div>
+      <AddInstitutionModal onInstituteAdded={onInstituteAdded} />
+
       <SimpleGrid columns={[1, 2, 3]} spacing={6}>
         {instData.map((institution) => (
           <InstitutionCard
             key={institution.id}
             institute={institution}
-            onUpdate={(updatedInstitute) => {
-              // Handle update logic
-              console.log("Updating institute:", updatedInstitute);
+            onUpdate={() => {
+              fetchInstitutes();
             }}
-            onDelete={(id) => {
-              // Handle delete logic
-              console.log("Deleting institute with ID:", id);
+            onDelete={() => {
+              fetchInstitutes();
             }}
           />
         ))}
