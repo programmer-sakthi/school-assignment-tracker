@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,9 +42,29 @@ public class InstituteService {
         return institute;
     }
 
+    @Transactional
     public ResponseEntity<?> deleteInstitute(long instituteId) {
-        instituteRepo.deleteById(instituteId);
-        return ResponseEntity.ok("Deleted Successfully");
+        Optional<Institute> instituteOpt = instituteRepo.findById(instituteId);
+
+        if (instituteOpt.isPresent()) {
+            Institute institute = instituteOpt.get();
+
+            // Fetch users associated with the institute
+            Set<User> users = institute.getUsers();
+            for (User user : users) {
+                user.getInstitutes().remove(institute);
+            }
+
+            // Save updated users to reflect changes in the join table
+            userRepo.saveAll(users);
+
+            // Now, delete the institute
+            instituteRepo.delete(institute);
+
+            return ResponseEntity.ok("Deleted Successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Institute not found");
+        }
     }
 
     public void updateInstitute(long instituteId, Institute updatedInstitute, MultipartFile imageFile)

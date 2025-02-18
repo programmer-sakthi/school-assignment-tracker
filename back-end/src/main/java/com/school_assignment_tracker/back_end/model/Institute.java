@@ -40,7 +40,7 @@ public class Institute {
     private byte[] imageData;
 
     
-    @ManyToMany(mappedBy = "institutes" , cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "institutes" , cascade = {CascadeType.PERSIST , CascadeType.MERGE})
     @JsonIgnore
     private Set<User> users;
 

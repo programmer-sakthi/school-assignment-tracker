@@ -46,7 +46,7 @@ public class User {
     @JsonProperty("type")
     private String type;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "user_institute", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "institute_id"))
     @JsonIgnore
     private Set<Institute> institutes;
