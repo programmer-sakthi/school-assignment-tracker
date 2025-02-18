@@ -1,15 +1,24 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../context/AuthContext";
 import "./Login.css";
 import frontImg from "./images/frontImg.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const context = useContext(AuthContext);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (context.user) {
+      console.log(context.user)
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,13 +31,14 @@ const Login = () => {
           password: password,
         }
       );
-      console.log(response);
+      console.log(response.status);
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "Success!",
           text: "User Logged in Succesfully",
         });
+        context.setUser(response.data);
         navigate("/dashboard");
       }
     } catch (error) {

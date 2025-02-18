@@ -10,7 +10,8 @@
 }
 
 .Login .container {
-  min-width: 800px;
+  min-width: 700px;
+  max-width: 780px;
   min-height: 200px;
   background-color: white;
   display: flex;
