@@ -1,5 +1,6 @@
 package com.school_assignment_tracker.back_end.services;
 
+import com.school_assignment_tracker.back_end.model.Institute;
 import com.school_assignment_tracker.back_end.model.User;
 import com.school_assignment_tracker.back_end.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -38,5 +40,12 @@ public class UserService {
         Optional<User> user=userRepo.findByEmail(email);
 
         return user;
+    }
+
+
+    public Set<Institute> getInstituteByUserId(Long userId) {
+        User user=userRepo.findById(userId).get();
+        Set<Institute> institutes=user.getInstitutes();
+        return institutes;
     }
 }

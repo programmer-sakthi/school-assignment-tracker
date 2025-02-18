@@ -45,6 +45,13 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
       .then((response) => {
         console.log("Institution added successfully:", response.data);
         alert("Institution added successfully");
+        axios
+          .post(
+            "http://localhost:8080/api/institutes/"+response.data.id+"/users/"+1
+          )
+          .catch((error) => {
+            console.error("Error adding user to institution:", error);
+          });
         onInstituteAdded();
         onClose();
         setInstituteName("");
@@ -78,12 +85,14 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
         {Overlay()}
         <ModalContent>
           <ModalHeader>Create an Institution</ModalHeader>
-          <ModalCloseButton onClick={ () => {
-            onClose()
-            setImage(null)
-            setInstituteName("")
-            setDescription("")
-          }} />
+          <ModalCloseButton
+            onClick={() => {
+              onClose();
+              setImage(null);
+              setInstituteName("");
+              setDescription("");
+            }}
+          />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit}>
               <FormControl mt={4}>
@@ -132,13 +141,16 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
                 <Button colorScheme="blue" mr={3} type="submit">
                   Save
                 </Button>
-                <Button onClick={ () => {
-                  onClose()
-                  setImage(null)
-                  setInstituteName("")
-                  setDescription("")  
-                }
-                }>Cancel</Button>
+                <Button
+                  onClick={() => {
+                    onClose();
+                    setImage(null);
+                    setInstituteName("");
+                    setDescription("");
+                  }}
+                >
+                  Cancel
+                </Button>
               </ModalFooter>
             </form>
           </ModalBody>

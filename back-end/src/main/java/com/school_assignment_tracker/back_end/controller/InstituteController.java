@@ -1,6 +1,8 @@
 package com.school_assignment_tracker.back_end.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,6 +57,11 @@ public class InstituteController {
         return ResponseEntity.ok().contentType(MediaType.valueOf(institute.getImageType())).body(imageFile);
     }
 
+    @PostMapping("/institutes/{instituteId}/users/{userId}")
+    public void addUserToInstitute(@PathVariable Long userId, @PathVariable Long instituteId) {
+        instituteService.addUserToInstitute(userId, instituteId);
+    }
+
     @DeleteMapping("/institutes/{instituteId}")
     public ResponseEntity<String> deleteInstitute(@PathVariable long instituteId) {
         instituteService.deleteInstitute(instituteId);
@@ -71,7 +78,14 @@ public class InstituteController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+
+    }
+
+    @GetMapping("/institutes/{userId}")
+    public List<Institute> getInstituteByUserId(@PathVariable Long userId) {
+        Set<Institute> institutesSet=instituteService.getInstituteByUserId(userId);
+        List<Institute> institutes=new ArrayList<>(institutesSet);
+        return institutes;
     }
 
 }

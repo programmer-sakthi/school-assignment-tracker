@@ -1,15 +1,20 @@
 package com.school_assignment_tracker.back_end.model;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "Institute")
 @NoArgsConstructor
 public class Institute {
@@ -33,5 +38,10 @@ public class Institute {
 
     @Lob
     private byte[] imageData;
+
+    
+    @ManyToMany(mappedBy = "institutes" , cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private Set<User> users;
 
 }

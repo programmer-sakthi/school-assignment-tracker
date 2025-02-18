@@ -12,7 +12,7 @@ const InstitutionManagement = () => {
   // Function to fetch institutions and their corresponding images
   const fetchInstitutes = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/institutes");
+      const response = await axios.get("http://localhost:8080/api/institutes/1");
       
       const filteredData = response.data.filter(
         (inst) => inst.imageData !== null && inst.imageData !== undefined
@@ -52,7 +52,7 @@ const InstitutionManagement = () => {
       }));
 
       setInstData(updatedInstitutes);
-      console.log(updatedInstitutes);
+      // console.log(updatedInstitutes);
       setFetchData(false);
     } catch (error) {
       console.error("Error fetching institutes:", error);
@@ -61,9 +61,10 @@ const InstitutionManagement = () => {
   };
 
   // Function called when a new institution is added
-  const onInstituteAdded = () => {
+  const onInstituteAdded = async () => {
     setFetchData(true); // Show the loader
-    fetchInstitutes(); // Re-fetch the institutions
+    await fetchInstitutes(); // Re-fetch the institutions
+    setFetchData(false)
   };
 
   // useEffect to fetch institution data on component mount

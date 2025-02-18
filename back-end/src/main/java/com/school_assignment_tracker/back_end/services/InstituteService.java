@@ -3,20 +3,26 @@ package com.school_assignment_tracker.back_end.services;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.school_assignment_tracker.back_end.model.Institute;
+import com.school_assignment_tracker.back_end.model.User;
 import com.school_assignment_tracker.back_end.repo.InstituteRepo;
+import com.school_assignment_tracker.back_end.repo.UserRepo;
 
 @Service
 public class InstituteService {
 
     @Autowired
     InstituteRepo instituteRepo;
+    @Autowired
+    UserRepo userRepo;
 
     public List<Institute> getAllInstitutes() {
         return instituteRepo.findAll();
@@ -57,10 +63,29 @@ public class InstituteService {
             throw new RuntimeException("Institute not found");
         }
     }
-        
-    
 
+    @Transactional
+    public void addUserToInstitute(Long userId, Long instituteId) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Institute institute = instituteRepo.findById(instituteId)
+                .orElseThrow(() -> new RuntimeException("Institute not found"));
 
+        if (!institute.getUsers().contains(user)) { // Prevent duplicate addition
+            institute.getUsers().add(user);
+            user.getInstitutes().add(institute); // 🔹 Ensure bidirectional update
 
+            userRepo.save(user); // 🔹 Save both entities
+            instituteRepo.save(institute);
+        }
+
+        System.out.println("User.institutes: " + user.getInstitutes());
+        System.out.println("Institute.users: " + institute.getUsers());
+    }
+
+    public Set<Institute> getInstituteByUserId(Long userId) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Set<Institute> institutes = user.getInstitutes();
+        return institutes;
+    }
 
 }
