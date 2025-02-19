@@ -55,7 +55,7 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
         alert("Institution added successfully");
         axios
           .post(
-            "http://localhost:8080/api/institutes/"+response.data.id+"/users/"+1
+            "http://localhost:8080/api/institutes/"+response.data.id+"/users/"+userContext.user.id
           )
           .catch((error) => {
             console.error("Error adding user to institution:", error);

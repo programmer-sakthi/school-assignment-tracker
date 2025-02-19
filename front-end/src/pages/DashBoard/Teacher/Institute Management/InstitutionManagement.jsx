@@ -1,18 +1,22 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddInstitutionModal from "./AddInstitutionModal";
 import InstitutionCard from "./InstitutionCard";
+import { AuthContext } from "../../../../context/AuthContext";
 
 const InstitutionManagement = () => {
   const [instData, setInstData] = useState([]); // State for institution data
   const [fetchData, setFetchData] = useState(true); // State to show the loader
   const [images, setImages] = useState({}); // Store images by institution ID
 
+  const {user} = useContext(AuthContext);
+
+
   // Function to fetch institutions and their corresponding images
   const fetchInstitutes = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/institutes/1");
+      const response = await axios.get("http://localhost:8080/api/institutes/"+user.id);
       
       const filteredData = response.data.filter(
         (inst) => inst.imageData !== null && inst.imageData !== undefined

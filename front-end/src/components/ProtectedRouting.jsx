@@ -16,6 +16,10 @@ const ProtectedRouting = ({ children }) => {
     return <Navigate to="/login" replace />;
   };
 
+  if(user === null)
+    return ;
+
+
   return user ? children : notLoggedIn();
 };
 
