@@ -1,15 +1,25 @@
-import React, {useState } from "react";
-import DashboardOverview from './DashBoardOverview';
-import InstitutionManagement from "./Institute Management/InstitutionManagement";
-import ClassManagement from "./Class Management/ClassManagement";
-import SectionManagement from "./Section Management/SectionManagement";
-import "./TeacherDashboard.css";
-import StudentManagement from "./Student Management/StudentManagement";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
 import AssignmentManagement from "./Assignment Management/AssignmentManagement";
-
+import ClassManagement from "./Class Management/ClassManagement";
+import DashboardOverview from "./DashBoardOverview";
+import InstitutionManagement from "./Institute Management/InstitutionManagement";
+import SectionManagement from "./Section Management/SectionManagement";
+import StudentManagement from "./Student Management/StudentManagement";
+import "./TeacherDashboard.css";
 
 const TeacherDashboard = () => {
   const [activeTab, setActiveTab] = useState("Dashboard");
+
+  const { user, onLogout } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    onLogout();
+    navigate("/login");
+  };
 
   const tabs = [
     "Dashboard",
@@ -19,6 +29,7 @@ const TeacherDashboard = () => {
     "Student Management",
     "Assignments",
     "Settings",
+    "Logout",
   ];
 
   const renderContent = () => {
@@ -37,6 +48,8 @@ const TeacherDashboard = () => {
         return <AssignmentManagement />;
       case "Settings":
         return <Settings />;
+      case "Logout":
+        handleLogout();
       default:
         return <DashboardOverview />;
     }
@@ -63,9 +76,6 @@ const TeacherDashboard = () => {
     </div>
   );
 };
-
-
-
 
 const AssignmentPosting = () => (
   <div>

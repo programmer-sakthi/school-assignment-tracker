@@ -9,16 +9,15 @@ import frontImg from "./images/frontImg.jpg";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const context = useContext(AuthContext);
-
+  const { user, onLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (context.user) {
-      console.log(context.user)
+    console.log("User in Context:", user);
+    if (user) {
       navigate("/dashboard");
     }
-  }, []);
+  }, [user]); // 👈 Run useEffect when user changes
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,35 +25,29 @@ const Login = () => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/validate-login",
-        {
-          email: email,
-          password: password,
-        }
+        { email, password }
       );
-      console.log(response.status);
+
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "Success!",
-          text: "User Logged in Succesfully",
+          text: "User Logged in Successfully",
         });
-        context.setUser(response.data);
+
+        const userData = response.data;
+        sessionStorage.setItem("user", JSON.stringify(userData));
+        onLogin(userData); // 👈 Correctly update context state
+
         navigate("/dashboard");
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        Swal.fire({
-          icon: "error",
-          title: "Failed!",
-          text: error.response.data || "Access forbidden: Invalid credentials",
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Failed!",
-          text: "An error occurred. Please try again.",
-        });
-      }
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: error.response?.data || "An error occurred. Please try again.",
+      });
+      console.error(error);
     }
   };
 
@@ -74,9 +67,8 @@ const Login = () => {
                     type="text"
                     placeholder="Enter your email"
                     required
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="input-box">
@@ -85,9 +77,8 @@ const Login = () => {
                     type="password"
                     placeholder="Enter your password"
                     required
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="text" style={{ marginTop: "30px" }}>
@@ -97,7 +88,7 @@ const Login = () => {
                   <input type="submit" value="Login" />
                 </div>
                 <div className="text sign-up-text">
-                  Don't have an account ?{" "}
+                  Don't have an account?{" "}
                   <a onClick={() => navigate("/signup")}>Signup now</a>{" "}
                 </div>
               </div>

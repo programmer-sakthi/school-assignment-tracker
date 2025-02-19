@@ -13,7 +13,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { AuthContext } from "../../../../context/AuthContext";
 
 const AddInstitutionModal = ({ onInstituteAdded }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,6 +23,13 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
   const [image, setImage] = useState(null);
 
   const initialRef = useRef(null);
+
+  const userContext=useContext(AuthContext);
+  
+  useEffect(() => {
+    console.log(userContext)
+  })
+
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @PostMapping("/validate-login")
-    public ResponseEntity<String> validateLogin(@RequestBody UserLogin u) {
+    public ResponseEntity<?> validateLogin(@RequestBody UserLogin u) {
         String email = u.getEmail();
         String password = u.getPassword();
         Optional<User> user = userService.validateEmail(email);
@@ -62,7 +62,7 @@ public class UserController {
             user = userService.validateLogin(email, password);
 
             if (user.isPresent()) {
-                return ResponseEntity.ok("User validated successfully");
+                return ResponseEntity.ok(user);
             } else {
                 return ResponseEntity.status(401).body("Invalid Password !");
 
