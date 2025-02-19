@@ -61,7 +61,7 @@ public class UserController {
         } else {
             user = userService.validateLogin(email, password);
 
-            if (user.isPresent()) {
+            if (user.isPresent()) {     
                 return ResponseEntity.ok(user);
             } else {
                 return ResponseEntity.status(401).body("Invalid Password !");
