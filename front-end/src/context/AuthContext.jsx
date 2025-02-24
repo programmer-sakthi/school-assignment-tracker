@@ -11,6 +11,8 @@ const AuthProvider = ({ children }) => {
     if (currentUser) {
       setUser(JSON.parse(currentUser));
     }
+    else 
+      setUser(undefined)
   }, []);
 
   // Corrected onLogin function
