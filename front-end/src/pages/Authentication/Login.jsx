@@ -5,11 +5,13 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 import "./Login.css";
 import frontImg from "./images/frontImg.jpg";
+import { randomQuote } from "./quotes";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, onLogin } = useContext(AuthContext);
+  const [quote,setQuote]=useState("")
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +20,11 @@ const Login = () => {
       navigate("/dashboard");
     }
   }, [user]); 
+
+  useEffect(() => {
+    const quote=randomQuote();
+    setQuote(quote);
+  } , [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,6 +104,7 @@ const Login = () => {
         </div>
         <div className="image p-0 m-0">
           <img src={frontImg} alt="icon" />
+          <div className="image-text">{quote}</div>
         </div>
       </div>
     </div>
