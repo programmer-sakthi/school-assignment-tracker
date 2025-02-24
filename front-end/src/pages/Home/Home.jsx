@@ -23,7 +23,7 @@ const Home = () => {
     <div className="Home text-center">
       <div className="text-5xl">
         <div>
-          <h1 className="font-bold heading font-extrabold">
+          <h1 className="heading font-extrabold">
             Assignment tracking made{" "}
             <span className="dynamic-text" ref={typer}></span>
           </h1>

@@ -6,9 +6,9 @@ import InstitutionCard from "./InstitutionCard";
 import { AuthContext } from "../../../../context/AuthContext";
 
 const InstitutionManagement = () => {
-  const [instData, setInstData] = useState([]); // State for institution data
-  const [fetchData, setFetchData] = useState(true); // State to show the loader
-  const [images, setImages] = useState({}); // Store images by institution ID
+  const [instData, setInstData] = useState([]);
+  const [fetchData, setFetchData] = useState(true); 
+  const [images, setImages] = useState({}); 
 
   const {user} = useContext(AuthContext);
 
@@ -74,6 +74,7 @@ const InstitutionManagement = () => {
   // useEffect to fetch institution data on component mount
   useEffect(() => {
     fetchInstitutes();
+    console.log(instData)
   }, []);
 
   return (

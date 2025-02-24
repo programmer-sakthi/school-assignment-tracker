@@ -11,7 +11,10 @@ const InstituteCard = ({
   const { colorMode } = useColorMode(); // Get the current color mode
 
   
-  imageUrl ="https://skcet.ac.in/wp-content/uploads/2023/12/Library-page-image.jpg"
+  studentCount=60;
+  teacherCount=5;
+  location="Coimbatore";
+
   return (
     <div
       className={`relative group rounded-xl p-6 transition-all duration-300 hover:shadow-lg animate-fade-in backdrop-blur-sm border 

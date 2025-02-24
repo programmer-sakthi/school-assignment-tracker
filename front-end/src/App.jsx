@@ -1,5 +1,4 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 // import { AuthContext } from "./context/AuthContext";
@@ -30,7 +29,14 @@ function App() {
               }
             />
             <Route path="*" element={<PageNotFound />} />
-            <Route path="sample" element={<InstituteList />} />
+            <Route
+              path="sample"
+              element={
+                <ProtectedRouting>
+                  <InstituteList />
+                </ProtectedRouting>
+              }
+            />
           </Routes>
         </Router>
       </AuthProvider>
