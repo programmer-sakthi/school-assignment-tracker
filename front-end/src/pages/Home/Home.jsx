@@ -1,14 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Typed from "typed.js";
 import "./Home.css";
-import { useNavigate } from "react-router-dom";
+import { Button } from "@chakra-ui/react";
 
 const Home = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const typer = useRef(null);
   useEffect(() => {
     const typed = new Typed(typer.current, {
-      strings: ["Easy!", "Efficient!" , "Effortless!"],
+      strings: ["Easy!", "Efficient!", "Effortless!"],
       typeSpeed: 100,
       backSpeed: 100,
       loop: true,
@@ -19,27 +20,28 @@ const Home = () => {
     };
   }, []);
   return (
-    <div className="Home">
-      <div>
-        <div className="message">
-          <h1 className="text-center mt-2 fs-4 " style={{ display: "inline" }}>
+    <div className="Home text-center">
+      <div className="text-5xl">
+        <div>
+          <h1 className="font-bold heading font-extrabold">
             Assignment tracking made{" "}
             <span className="dynamic-text" ref={typer}></span>
           </h1>
         </div>
-        <div className="buttons row justify-content-around mt-5">
-          <button
-            className="col-auto btn btn-primary p-3"
+        <div className="text-2xl flex justify-around mt-12">
+          <Button
             onClick={() => navigate("/login")}
+            colorScheme="blue"
           >
             Login
-          </button>
-          <button
-            className="col-auto btn btn-outline-info p-3"
+          </Button>
+
+          <Button
+            colorScheme="green"
             onClick={() => navigate("/signup")}
           >
             Join for free
-          </button>
+          </Button>
         </div>
       </div>
     </div>

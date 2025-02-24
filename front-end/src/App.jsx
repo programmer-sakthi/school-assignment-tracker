@@ -10,6 +10,7 @@ import Signup from "./pages/Authentication/Signup";
 import DashBoard from "./pages/DashBoard/DashBoard";
 import PageNotFound from "./pages/Error/PageNotFound";
 import Home from "./pages/Home/Home";
+import InstituteList from "./pages/Sample/InstituteList";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               }
             />
             <Route path="*" element={<PageNotFound />} />
+            <Route path="sample" element={<InstituteList />} />
           </Routes>
         </Router>
       </AuthProvider>

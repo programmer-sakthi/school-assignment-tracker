@@ -8,10 +8,14 @@
   align-items: center;
 }
 
-.Home>div{
+.Home > div {
   width: 690px;
 }
 
 .Home .dynamic-text {
-  color:crimson;
+  color: crimson;
+}
+
+.heading {
+  font-size: 40px;
 }
