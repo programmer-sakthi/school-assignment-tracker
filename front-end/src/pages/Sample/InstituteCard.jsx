@@ -1,43 +1,62 @@
 import { useColorMode } from "@chakra-ui/react";
-import { Building, GraduationCap, School, Users } from "lucide-react";
+import {
+  Building,
+  GraduationCap,
+  MoreHorizontal,
+  PenSquare,
+  School,
+  Trash2,
+  Users,
+} from "lucide-react";
 
 const InstituteCard = ({
+  instituteID,
   name,
   location,
   studentCount,
   teacherCount,
   imageUrl,
+  onDelete,
+  onUpdate,
 }) => {
-  const { colorMode } = useColorMode(); // Get the current color mode
-
-  
-  studentCount=60;
-  teacherCount=5;
-  location="Coimbatore";
+  const { colorMode } = useColorMode();
+  studentCount = 60;
+  teacherCount = 5;
+  location = "Coimbatore";
 
   return (
     <div
-      className={`relative group rounded-xl p-6 transition-all duration-300 hover:shadow-lg animate-fade-in backdrop-blur-sm border 
-        ${
-          colorMode === "light"
-            ? "bg-white border-gray-200"
-            : "bg-gray-800 border-gray-700"
-        }
-      `}
+      className={`relative group rounded-xl p-6 transition-all duration-300 hover:shadow-lg animate-fade-in backdrop-blur-sm border ${
+        colorMode === "light"
+          ? "bg-white border-gray-200"
+          : "bg-gray-800 border-gray-700"
+      }`}
     >
       <div
-        className={`absolute -z-10 inset-0 bg-gradient-to-br 
-        ${
+        className={`absolute -z-10 inset-0 bg-gradient-to-br ${
           colorMode === "light"
             ? "from-primary/5 to-secondary/5"
             : "from-primary/10 to-secondary/10"
-        }
-        rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+        } rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
       />
+
+      {/* Action Icons */}
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-colors">
+          <Trash2 className="w-4 h-4 text-red-600" />
+        </button>
+        <button className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition-colors">
+          <PenSquare className="w-4 h-4 text-blue-600" />
+        </button>
+        <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+          <MoreHorizontal className="w-4 h-4 text-gray-600" />
+        </button>
+      </div>
+
       <div className="flex items-start gap-4">
         <div
           className="flex-shrink-0 w-5 h-5 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden"
-          style={{width: "5rem", height: "5rem" }}
+          style={{ width: "5rem", height: "5rem" }}
         >
           {imageUrl ? (
             <img
@@ -53,7 +72,6 @@ const InstituteCard = ({
             <School className="w-6 h-6 text-primary" />
           )}
         </div>
-
         <div className="flex-1">
           <h3
             className={`text-lg font-semibold mb-2 ${

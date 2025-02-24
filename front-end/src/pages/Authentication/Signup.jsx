@@ -1,20 +1,30 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "./Signup.css";
+import backImg from "./images/backImg.jpg";
 import studentImageChecked from "./images/student-checked.png";
 import studentImage from "./images/student.png";
 import teacherImageChecked from "./images/teacher-checked.png";
 import teacherImage from "./images/teacher.png";
+import { randomQuote } from "./quotes";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
+  const [quote , setQuote] = useState("")
 
   const navigate = useNavigate();
+
+  
+
+  useEffect(() => {
+    setQuote(randomQuote())
+  } , [])
+
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -34,23 +44,25 @@ const Signup = () => {
           title: "Success!",
           text: "Account Created Successfully!",
         });
-        navigate('/dashboard')
+      navigate("/dashboard");
     } catch (error) {
-        if(error.status === 409)  
-        {
-          Swal.fire({
-            icon: "error",
-            title: "Failed!",
-            text: "Email already exists!",
-          })
-        }
+      if (error.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Failed!",
+          text: "Email already exists!",
+        });
+      }
     }
   };
 
   return (
     <div className="Signup">
       <div className="container p-0 ">
-        <div className="image"></div>
+        <div className="image">
+          <img src={backImg} alt="cover-image"/>
+          <div className="image-text">{quote}</div>
+        </div>
         <div className="form">
           <form onSubmit={handleSignup}>
             <div className="form-content">

@@ -17,7 +17,7 @@ const Login = () => {
     if (user) {
       navigate("/dashboard");
     }
-  }, [user]); // 👈 Run useEffect when user changes
+  }, [user]); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,14 +1,16 @@
 import {
+  Box,
   Button,
   HStack,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
+  Select,
   useColorMode,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { Moon, Search, Sun } from "lucide-react";
+import { ArrowUpDown, Moon, Search, Sun } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import InstituteCard from "./InstituteCard";
@@ -19,6 +21,7 @@ const InstituteList = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [instData, setInstData] = useState([]);
   const [fetchData, setFetchData] = useState(true);
+  const [sortBy, setSortBy] = useState("name");
 
   const { user } = useContext(AuthContext);
 
@@ -32,7 +35,6 @@ const InstituteList = () => {
         (inst) => inst.imageData !== null && inst.imageData !== undefined
       );
 
-      // Fetch images for each institution
       const imagePromises = filteredData.map(async (institute) => {
         try {
           const imageResponse = await axios.get(
@@ -52,7 +54,7 @@ const InstituteList = () => {
             institute.id,
             error
           );
-          return { id: institute.id, imageURL: null }; // Fallback for errors
+          return { id: institute.id, imageURL: null };
         }
       });
 
@@ -67,7 +69,6 @@ const InstituteList = () => {
       }));
 
       setInstData(updatedInstitutes);
-      // console.log(updatedInstitutes);
       setFetchData(false);
     } catch (error) {
       console.error("Error fetching institutes:", error);
@@ -76,22 +77,33 @@ const InstituteList = () => {
   };
 
   useEffect(() => {
-    fetchInstitutes();
-    console.log(instData);
-  }, []);
+    if (user) {
+      fetchInstitutes();
+    }
+  }, [user]);
 
-  const filteredInstitutes = instData.filter((institute) =>
-    institute.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredInstitutes = instData
+    .filter((institute) =>
+      institute.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortBy === "name") {
+        return a.name.localeCompare(b.name);
+      } else if (sortBy === "students") {
+        return b.studentCount - a.studentCount;
+      } else if (sortBy === "teachers") {
+        return b.teacherCount - a.teacherCount;
+      }
+      return 0;
+    });
 
   return (
     <div className="space-y-6 m-20 mt-17">
       <div className="flex items-center justify-between flex-wrap">
-        {/* <HStack spacing={4} width={"10%"}> */}
         <h1 style={{ fontSize: "40px" }} className="font-mono">
           Institutes
         </h1>
-        {/* </HStack> */}
+
         <HStack spacing={4} width={"40%"}>
           <InputGroup
             width="100%"
@@ -101,7 +113,6 @@ const InstituteList = () => {
             <InputLeftElement pointerEvents="none">
               <Search className={`search-icon text-gray-400 h-5 w-5`} />
             </InputLeftElement>
-            ``
             <Input
               placeholder="Search institutes..."
               value={searchQuery}
@@ -115,6 +126,31 @@ const InstituteList = () => {
         </HStack>
 
         <HStack spacing={4}>
+          <Box position="relative" width="200px" border={"1px solid gray"}>
+            <ArrowUpDown
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "10px",
+                transform: "translateY(-50%)",
+                pointerEvents: "none",
+                color: "gray",
+              }}
+            />
+            <Select
+              placeholder="Sort By"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              pl="8"
+              border="none"
+              _focus={{ boxShadow: "none" }}
+            >
+              <option value="name">Name (A-Z)</option>
+              <option value="students">Student Count (High to Low)</option>
+              <option value="teachers">Teacher Count (High to Low)</option>
+            </Select>
+          </Box>
+
           <Button colorScheme="blue">Add Institute</Button>
           <IconButton
             aria-label="Toggle Theme"
@@ -127,7 +163,8 @@ const InstituteList = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredInstitutes.map((institute) => (
           <InstituteCard
-            key={institute.id}
+          key={institute.id}
+            instituteID={institute.id}
             name={institute.name}
             location={institute.location}
             studentCount={institute.studentCount}
