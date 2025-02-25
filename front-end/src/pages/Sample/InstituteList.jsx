@@ -1,18 +1,22 @@
 import {
   Box,
-  Button,
+  Center,
+  Flex,
   HStack,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   Select,
+  Spinner,
+  Text,
   useColorMode,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { ArrowUpDown, Moon, Search, Sun } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import AddInstitutionModal from "../DashBoard/Teacher/Institute Management/AddInstitutionModal";
 import InstituteCard from "./InstituteCard";
 
 const InstituteList = () => {
@@ -20,15 +24,22 @@ const InstituteList = () => {
   const [isFocused, setIsFocused] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
   const [instData, setInstData] = useState([]);
-  const [fetchData, setFetchData] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState("name");
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { user } = useContext(AuthContext);
 
   const fetchInstitutes = async () => {
+    if (!user || !user.id) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/institutes/" + user.id
+        `http://localhost:8080/api/institutes/${user.id}`
       );
 
       const filteredData = response.data.filter(
@@ -69,18 +80,21 @@ const InstituteList = () => {
       }));
 
       setInstData(updatedInstitutes);
-      setFetchData(false);
     } catch (error) {
       console.error("Error fetching institutes:", error);
-      setFetchData(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (user) {
-      fetchInstitutes();
-    }
-  }, [user]);
+    fetchInstitutes();
+  }, [user, refreshTrigger]);
+
+  const onInstituteAdded = () => {
+    // Using a counter to force a refresh
+    setRefreshTrigger((prev) => prev + 1);
+  };
 
   const filteredInstitutes = instData
     .filter((institute) =>
@@ -99,12 +113,12 @@ const InstituteList = () => {
 
   return (
     <div className="space-y-6 m-20 mt-17">
-      <div className="flex items-center justify-between flex-wrap">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <h1 style={{ fontSize: "40px" }} className="font-mono">
           Institutes
         </h1>
 
-        <HStack spacing={4} width={"40%"}>
+        <HStack spacing={4} width={{ base: "100%", md: "40%" }}>
           <InputGroup
             width="100%"
             minWidth="100%"
@@ -125,7 +139,7 @@ const InstituteList = () => {
           </InputGroup>
         </HStack>
 
-        <HStack spacing={4}>
+        <HStack spacing={4} flexWrap="wrap">
           <Box position="relative" width="200px" border={"1px solid gray"}>
             <ArrowUpDown
               style={{
@@ -151,7 +165,7 @@ const InstituteList = () => {
             </Select>
           </Box>
 
-          <Button colorScheme="blue">Add Institute</Button>
+          <AddInstitutionModal onInstituteAdded={onInstituteAdded} />
           <IconButton
             aria-label="Toggle Theme"
             icon={colorMode === "light" ? <Moon /> : <Sun />}
@@ -160,19 +174,34 @@ const InstituteList = () => {
         </HStack>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredInstitutes.map((institute) => (
-          <InstituteCard
-          key={institute.id}
-            instituteID={institute.id}
-            name={institute.name}
-            location={institute.location}
-            studentCount={institute.studentCount}
-            teacherCount={institute.teacherCount}
-            imageUrl={institute.imageURL}
-          />
-        ))}
-      </div>
+      {isLoading ? (
+        <Center p={8}>
+          <Spinner size="xl" />
+        </Center>
+      ) : filteredInstitutes.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredInstitutes.map((institute) => (
+            <InstituteCard
+              key={institute.id}
+              instituteID={institute.id}
+              name={institute.name}
+              location={institute.location}
+              studentCount={institute.studentCount}
+              teacherCount={institute.teacherCount}
+              imageUrl={institute.imageURL}
+            />
+          ))}
+        </div>
+      ) : (
+        <Center p={8}>
+          <Flex direction="column" align="center">
+            <Text fontSize="xl">No institutes found</Text>
+            {searchQuery && (
+              <Text fontSize="md">Try a different search term</Text>
+            )}
+          </Flex>
+        </Center>
+      )}
     </div>
   );
 };
