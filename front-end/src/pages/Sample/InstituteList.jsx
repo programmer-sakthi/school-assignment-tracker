@@ -89,9 +89,9 @@ const InstituteList = () => {
 
   useEffect(() => {
     fetchInstitutes();
-  }, [user, refreshTrigger]);
+  }, [refreshTrigger]);
 
-  const onInstituteAdded = () => {
+  const onInstituteListModified = () => {
     // Using a counter to force a refresh
     setRefreshTrigger((prev) => prev + 1);
   };
@@ -165,7 +165,7 @@ const InstituteList = () => {
             </Select>
           </Box>
 
-          <AddInstitutionModal onInstituteAdded={onInstituteAdded} />
+          <AddInstitutionModal onInstituteAdded={onInstituteListModified} />
           <IconButton
             aria-label="Toggle Theme"
             icon={colorMode === "light" ? <Moon /> : <Sun />}
@@ -189,6 +189,7 @@ const InstituteList = () => {
               studentCount={institute.studentCount}
               teacherCount={institute.teacherCount}
               imageUrl={institute.imageURL}
+              onDelete={onInstituteListModified}
             />
           ))}
         </div>

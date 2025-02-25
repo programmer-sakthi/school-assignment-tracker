@@ -1,13 +1,14 @@
-import { useColorMode } from "@chakra-ui/react";
+import { useColorMode, useToast } from "@chakra-ui/react";
 import {
   Building,
   GraduationCap,
   MoreHorizontal,
   PenSquare,
   School,
-  Trash2,
   Users,
 } from "lucide-react";
+import { handleDelete } from "./DeleteInstitute";
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 
 const InstituteCard = ({
   instituteID,
@@ -20,9 +21,58 @@ const InstituteCard = ({
   onUpdate,
 }) => {
   const { colorMode } = useColorMode();
-  studentCount = 60;
-  teacherCount = 5;
-  location = "Coimbatore";
+  const toast = useToast();
+
+  // Default values if not provided
+  studentCount = studentCount || 60;
+  teacherCount = teacherCount || 5;
+  location = location || "Coimbatore";
+
+  const handleDeleteClick = async () => {
+    try {
+      // First, show a deleting toast
+      const loadingToastId = toast({
+        title: "Deleting...",
+        description: `Removing ${name}`,
+        status: "loading",
+        duration: null,
+        isClosable: false,
+      });
+
+      // Attempt to delete
+      const response = await handleDelete(instituteID);
+
+      // Close the loading toast
+      toast.close(loadingToastId);
+
+      // Show success toast
+      toast({
+        title: "Institute Deleted",
+        description: `${name} has been successfully removed`,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      // If parent component provided onDelete callback, call it
+      if (onDelete) {
+        onDelete();
+      }
+
+      return response;
+    } catch (error) {
+      // Show error toast
+      toast({
+        title: "Delete Failed",
+        description:
+          error.response?.data?.message || "Could not delete institute",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      console.error("Error deleting institute:", error);
+    }
+  };
 
   return (
     <div
@@ -42,13 +92,21 @@ const InstituteCard = ({
 
       {/* Action Icons */}
       <div className="absolute top-4 right-4 flex items-center gap-2">
-        <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-colors">
-          <Trash2 className="w-4 h-4 text-red-600" />
-        </button>
-        <button className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition-colors">
+        <DeleteConfirmationDialog 
+          instituteName={name} 
+          onDelete={handleDeleteClick} 
+        />
+        <button
+          className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition-colors"
+          onClick={onUpdate ? () => onUpdate(instituteID) : undefined}
+          aria-label={`Edit ${name}`}
+        >
           <PenSquare className="w-4 h-4 text-blue-600" />
         </button>
-        <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+        <button
+          className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          aria-label="More options"
+        >
           <MoreHorizontal className="w-4 h-4 text-gray-600" />
         </button>
       </div>
