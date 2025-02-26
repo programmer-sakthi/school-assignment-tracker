@@ -1,16 +1,22 @@
 package com.school_assignment_tracker.back_end.model;
 
-
-import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import lombok.Data;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -24,14 +30,13 @@ public class Institute {
     @JsonProperty("id")
     private Long id;
 
-    @Column(name="name")
+    @Column(name = "name")
     @JsonProperty("name")
     private String name;
 
-    @Column(name="description")
+    @Column(name = "description")
     @JsonProperty("description")
     private String description;
-
 
     private String imageName;
     private String imageType;
@@ -39,8 +44,7 @@ public class Institute {
     @Lob
     private byte[] imageData;
 
-    
-    @ManyToMany(mappedBy = "institutes" , cascade = {CascadeType.PERSIST , CascadeType.MERGE})
+    @ManyToMany(mappedBy = "institutes", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JsonIgnore
     private Set<User> users;
 
