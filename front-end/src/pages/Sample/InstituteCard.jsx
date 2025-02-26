@@ -3,12 +3,12 @@ import {
   Building,
   GraduationCap,
   MoreHorizontal,
-  PenSquare,
   School,
   Users,
 } from "lucide-react";
-import { handleDelete } from "./DeleteInstitute";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
+import { handleDelete } from "./DeleteInstitute";
+import UpdateInstituteModal from "./UpdateInstituteModal";
 
 const InstituteCard = ({
   instituteID,
@@ -92,17 +92,26 @@ const InstituteCard = ({
 
       {/* Action Icons */}
       <div className="absolute top-4 right-4 flex items-center gap-2">
-        <DeleteConfirmationDialog 
-          instituteName={name} 
-          onDelete={handleDeleteClick} 
+        <DeleteConfirmationDialog
+          instituteName={name}
+          onDelete={handleDeleteClick}
         />
-        <button
+        {/* <button
           className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition-colors"
           onClick={onUpdate ? () => onUpdate(instituteID) : undefined}
           aria-label={`Edit ${name}`}
         >
           <PenSquare className="w-4 h-4 text-blue-600" />
-        </button>
+        </button> */}
+        <UpdateInstituteModal
+          institute={{
+            instituteID: instituteID,
+            name: name,
+            imageURL: imageUrl,
+            location: location,
+          }}
+          onUpdate={onUpdate}
+        />
         <button
           className="p-2 rounded-full hover:bg-gray-100 transition-colors"
           aria-label="More options"

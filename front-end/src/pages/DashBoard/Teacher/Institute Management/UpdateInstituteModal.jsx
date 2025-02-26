@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 
 const UpdateInstituteModal = ({ institute, onInstituteUpdated }) => {
@@ -84,11 +84,10 @@ const UpdateInstituteModal = ({ institute, onInstituteUpdated }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Update Institution</ModalHeader>
-          <ModalCloseButton onClick={handleClose}/>
+          <ModalCloseButton onClick={handleClose} />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit}>
               <FormControl mt={4}>
-                {/* TODO: Previous image should be shown here */}
                 {institute.imageURL && (
                   <div className="mb-4">
                     <FormLabel>Current Image</FormLabel>
@@ -110,10 +109,9 @@ const UpdateInstituteModal = ({ institute, onInstituteUpdated }) => {
                   className="form-control"
                   onChange={(e) => {
                     const file = e.target.files[0];
-                    setImage(e.target.files[0])
-                    setImageURL(URL.createObjectURL(file))
-                  }
-                }
+                    setImage(e.target.files[0]);
+                    setImageURL(URL.createObjectURL(file));
+                  }}
                   // value={image}
                 />
               </FormControl>

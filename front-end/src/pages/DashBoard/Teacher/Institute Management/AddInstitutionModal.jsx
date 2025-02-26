@@ -147,7 +147,7 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
             <form onSubmit={handleSubmit}>
               <FormControl mb={4}>
                 <FormLabel fontWeight="medium">Image Preview</FormLabel>
-                {image && (
+                {image ? (
                   <Box
                     borderRadius="md"
                     overflow="hidden"
@@ -164,6 +164,10 @@ const AddInstitutionModal = ({ onInstituteAdded }) => {
                       }}
                     />
                   </Box>
+                ) : (
+                  <p className="text-gray-500 text-sm font-semibold italic">
+                    No image available to preview
+                  </p>
                 )}
               </FormControl>
 

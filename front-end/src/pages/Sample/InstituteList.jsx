@@ -114,7 +114,7 @@ const InstituteList = () => {
   return (
     <div className="space-y-6 m-20 mt-17">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h1 style={{ fontSize: "40px" }} className="font-mono">
+        <h1 style={{ fontSize: "40px" }} className="font-mono" >
           Institutes
         </h1>
 
@@ -190,6 +190,7 @@ const InstituteList = () => {
               teacherCount={institute.teacherCount}
               imageUrl={institute.imageURL}
               onDelete={onInstituteListModified}
+              onUpdate={onInstituteListModified}
             />
           ))}
         </div>
