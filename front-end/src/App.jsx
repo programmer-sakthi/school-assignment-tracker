@@ -8,6 +8,7 @@ import Signup from "./pages/Authentication/Signup/Signup";
 import PageNotFound from "./pages/Error/PageNotFound";
 import Home from "./pages/Home/Home";
 import InstituteManagement from "./pages/Teacher UI/Navigator/InstituteManagement";
+import TeacherDashboard from "./pages/Teacher UI/Dashboard/TeacherDashboard";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 </ProtectedRouting>
               }
             />
+            <Route path="/sample" element={<TeacherDashboard />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>
