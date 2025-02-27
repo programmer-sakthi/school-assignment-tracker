@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -10,9 +11,7 @@ const AuthProvider = ({ children }) => {
     const currentUser = sessionStorage.getItem("user");
     if (currentUser) {
       setUser(JSON.parse(currentUser));
-    }
-    else 
-      setUser(undefined)
+    } else setUser(undefined);
   }, []);
 
   // Corrected onLogin function

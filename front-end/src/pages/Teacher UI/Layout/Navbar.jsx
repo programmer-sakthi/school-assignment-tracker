@@ -1,3 +1,4 @@
+import { AuthContext } from "@/context/AuthContext";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -5,16 +6,28 @@ import {
   HStack,
   Icon,
   Link,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
   Text,
   useColorMode,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { useContext, useState } from "react";
+import { FaCog, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
   const [selectedItem, setSelectedItem] = useState("Dashboard");
+
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const { onLogout } = useContext(AuthContext);
 
   const navItems = [
     "Dashboard",
@@ -95,7 +108,7 @@ const Navbar = () => {
         ))}
       </HStack>
 
-      {/* Right side - Theme toggle and profile icon */}
+      {/* Right side - Theme toggle and profile icon with dropdown */}
       <HStack spacing={4}>
         <Button
           onClick={toggleColorMode}
@@ -105,9 +118,52 @@ const Navbar = () => {
         >
           {isDark ? <SunIcon /> : <MoonIcon />}
         </Button>
-        <Button variant="ghost" p={2} borderRadius="full" aria-label="Profile">
-          <Icon as={FaUserCircle} boxSize={6} />
-        </Button>
+
+        {/* Profile Menu */}
+        <Menu placement="bottom-end">
+          <MenuButton
+            as={Button}
+            variant="ghost"
+            p={2}
+            borderRadius="full"
+            aria-label="Profile"
+          >
+            <Icon as={FaUserCircle} boxSize={6} />
+          </MenuButton>
+          <MenuList
+            bg={isDark ? "gray.700" : "white"}
+            borderColor={isDark ? "gray.600" : "gray.200"}
+          >
+            <MenuItem
+              icon={<Icon as={FaCog} />}
+              bg={isDark ? "gray.700" : "white"}
+              _hover={{ bg: isDark ? "gray.600" : "gray.100" }}
+            >
+              Settings
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem
+              icon={<Icon as={FaSignOutAlt} />}
+              bg={isDark ? "gray.700" : "white"}
+              _hover={{ bg: isDark ? "gray.600" : "gray.100" }}
+              onClick={() => {
+                onLogout();
+                navigate("/");
+                toast(
+                  {
+                    title: "Logged out successfully",
+                    status: "info",
+                    duration: 3000,
+                    isClosable: true,
+                  },
+                  { position: "bottom-right" }
+                );
+              }}
+            >
+              Logout
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </HStack>
     </Flex>
   );
