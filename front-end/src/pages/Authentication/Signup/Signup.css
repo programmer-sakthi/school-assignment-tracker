@@ -9,6 +9,10 @@
   font-weight: 400;
 }
 
+.Signup * {
+  color: black;
+}
+
 .Signup .container {
   max-width: 900px;
   min-height: 200px;
@@ -113,6 +117,13 @@
 
   outline: none;
 }
+
+.Signup .input-box input::placeholder{
+  color: black;
+  opacity: 0.5;
+}
+
+
 
 .Signup .input-box input:focus,
 .Signup .input-box input:valid {

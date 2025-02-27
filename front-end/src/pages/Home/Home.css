@@ -1,3 +1,4 @@
+/* Home.css */
 .Home {
   min-height: 100vh;
   display: flex;
@@ -6,16 +7,27 @@
   background-position: bottom;
   justify-content: center;
   align-items: center;
-}
-
-.Home > div {
-  width: 690px;
-}
-
-.Home .dynamic-text {
-  color: crimson;
+  color: black;
+  font-family: "Poppins", sans-serif;
 }
 
 .heading {
   font-size: 40px;
+  display: inline-block;
+}
+
+.dynamic-text-container {
+  display: inline-block;
+  min-width: 220px;
+  text-align: left; /* Ensure the text aligns to the left */
+}
+
+.dynamic-text {
+  color: crimson;
+  font-size: 40px;
+}
+
+/* This ensures the typed cursor stays at the end of the text */
+.typed-cursor {
+  display: inline-block;
 }
