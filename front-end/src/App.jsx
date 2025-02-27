@@ -9,7 +9,7 @@ import Signup from "./pages/Authentication/Signup";
 import DashBoard from "./pages/DashBoard/DashBoard";
 import PageNotFound from "./pages/Error/PageNotFound";
 import Home from "./pages/Home/Home";
-import InstituteList from "./pages/Sample/InstituteList";
+import InstituteManagement from "./pages/Sample/InstituteManagement";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
               path="/dashboard"
               element={
                 <ProtectedRouting>
-                  <DashBoard />
+                  <InstituteManagement />
                 </ProtectedRouting>
               }
             />
@@ -33,10 +33,11 @@ function App() {
               path="sample"
               element={
                 <ProtectedRouting>
-                  <InstituteList />
+                  <DashBoard />
                 </ProtectedRouting>
               }
             />
+            {/* <Route path="/sample" element={<DepartmentList />} /> */}
           </Routes>
         </Router>
       </AuthProvider>

@@ -14,6 +14,7 @@ const InstituteCard = ({
   instituteID,
   name,
   location,
+  description,
   studentCount,
   teacherCount,
   imageUrl,
@@ -109,6 +110,7 @@ const InstituteCard = ({
             name: name,
             imageURL: imageUrl,
             location: location,
+            description: description,
           }}
           onUpdate={onUpdate}
         />

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
@@ -11,7 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, onLogin } = useContext(AuthContext);
-  const [quote,setQuote]=useState("")
+  const [quote, setQuote] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,12 +19,12 @@ const Login = () => {
     if (user) {
       navigate("/dashboard");
     }
-  }, [user]); 
+  }, [user]);
 
   useEffect(() => {
-    const quote=randomQuote();
+    const quote = randomQuote();
     setQuote(quote);
-  } , [])
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,9 +44,8 @@ const Login = () => {
 
         const userData = response.data;
         sessionStorage.setItem("user", JSON.stringify(userData));
-        onLogin(userData); // 👈 Correctly update context state
-
         navigate("/dashboard");
+        onLogin(userData);
       }
     } catch (error) {
       Swal.fire({

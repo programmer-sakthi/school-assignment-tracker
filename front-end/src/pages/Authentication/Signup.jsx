@@ -15,16 +15,13 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
-  const [quote , setQuote] = useState("")
+  const [quote, setQuote] = useState("");
 
   const navigate = useNavigate();
 
-  
-
   useEffect(() => {
-    setQuote(randomQuote())
-  } , [])
-
+    setQuote(randomQuote());
+  }, []);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -44,7 +41,7 @@ const Signup = () => {
           title: "Success!",
           text: "Account Created Successfully!",
         });
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
       if (error.status === 409) {
         Swal.fire({
@@ -60,7 +57,7 @@ const Signup = () => {
     <div className="Signup">
       <div className="container p-0 ">
         <div className="image">
-          <img src={backImg} alt="cover-image"/>
+          <img src={backImg} alt="cover-image" />
           <div className="image-text">{quote}</div>
         </div>
         <div className="form">

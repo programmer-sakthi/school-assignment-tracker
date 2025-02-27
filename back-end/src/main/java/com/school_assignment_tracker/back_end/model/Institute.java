@@ -35,6 +35,9 @@ public class Institute {
     @JsonProperty("name")
     private String name;
 
+    @Column(name = "location")
+    private String location;
+
     @Column(name = "description")
     @JsonProperty("description")
     private String description;

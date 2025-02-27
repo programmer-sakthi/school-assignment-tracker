@@ -3,7 +3,6 @@ import {
   Center,
   Flex,
   HStack,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -13,7 +12,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { ArrowUpDown, Moon, Search, Sun } from "lucide-react";
+import { ArrowUpDown, Search } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import AddInstitutionModal from "../DashBoard/Teacher/Institute Management/AddInstitutionModal";
@@ -112,9 +111,9 @@ const InstituteList = () => {
     });
 
   return (
-    <div className="space-y-6 m-20 mt-17">
+    <div className="space-y-6 m-20 mt-7 ">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h1 style={{ fontSize: "40px" }} className="font-mono" >
+        <h1 style={{ fontSize: "40px" }} className="font-mono">
           Institutes
         </h1>
 
@@ -166,11 +165,6 @@ const InstituteList = () => {
           </Box>
 
           <AddInstitutionModal onInstituteAdded={onInstituteListModified} />
-          <IconButton
-            aria-label="Toggle Theme"
-            icon={colorMode === "light" ? <Moon /> : <Sun />}
-            onClick={toggleColorMode}
-          />
         </HStack>
       </div>
 
@@ -188,6 +182,7 @@ const InstituteList = () => {
               location={institute.location}
               studentCount={institute.studentCount}
               teacherCount={institute.teacherCount}
+              description={institute.description}
               imageUrl={institute.imageURL}
               onDelete={onInstituteListModified}
               onUpdate={onInstituteListModified}
