@@ -2,13 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { randomQuote } from "../quotes";
 import "./Signup.css";
-import backImg from "./images/backImg.jpg";
-import studentImageChecked from "./images/student-checked.png";
-import studentImage from "./images/student.png";
-import teacherImageChecked from "./images/teacher-checked.png";
-import teacherImage from "./images/teacher.png";
-import { randomQuote } from "./quotes";
+import backImg from "../images/backImg.jpg";
+import studentImageChecked from "../images/student-checked.png";
+import studentImage from "../images/student.png";
+import teacherImageChecked from "../images/teacher-checked.png";
+import teacherImage from "../images/teacher.png";
 
 const Signup = () => {
   const [name, setName] = useState("");

@@ -1,5 +1,5 @@
 import InstituteList from "./InstituteList";
-import Navbar from "./Navbar";
+import Navbar from "../Layout/Navbar";
 
 const InstituteManagement = () => {
   return (

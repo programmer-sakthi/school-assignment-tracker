@@ -20,9 +20,9 @@ import axios from "axios";
 import { PenSquare } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FiFileText, FiMapPin, FiUser } from "react-icons/fi";
-import FileUpload from "../DashBoard/Teacher/Institute Management/FileUpload";
+import FileUpload from "./FileUpload";
 
-const UpdateInstituteModal = ({ institute , onUpdate }) => {
+const UpdateInstituteModal = ({ institute, onUpdate }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -34,12 +34,17 @@ const UpdateInstituteModal = ({ institute , onUpdate }) => {
         <PenSquare className="w-4 h-4 text-blue-600" />
       </button>
 
-      <UpdateModal isOpen={isOpen} onClose={onClose} institute={institute} onUpdate={onUpdate} />
+      <UpdateModal
+        isOpen={isOpen}
+        onClose={onClose}
+        institute={institute}
+        onUpdate={onUpdate}
+      />
     </>
   );
 };
 
-const UpdateModal = ({ isOpen, onClose, institute , onUpdate  }) => {
+const UpdateModal = ({ isOpen, onClose, institute, onUpdate }) => {
   const [instituteName, setInstituteName] = useState(institute.name);
   const [description, setDescription] = useState(institute.description);
   const [location, setLocation] = useState(institute.location);
@@ -80,16 +85,14 @@ const UpdateModal = ({ isOpen, onClose, institute , onUpdate  }) => {
         }
       )
       .then((response) => {
-        toast(
-          {
-            title: "Success",
-            description: "Institution updated successfully",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          }
-        )
-        onUpdate()
+        toast({
+          title: "Success",
+          description: "Institution updated successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        onUpdate();
         onClose();
       })
       .catch((error) => {

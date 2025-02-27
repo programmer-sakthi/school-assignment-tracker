@@ -14,8 +14,8 @@ import {
 import axios from "axios";
 import { ArrowUpDown, Search } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import AddInstitutionModal from "../DashBoard/Teacher/Institute Management/AddInstitutionModal";
+import { AuthContext } from "../../../context/AuthContext";
+import AddInstitutionModal from "./AddInstitutionModal";
 import InstituteCard from "./InstituteCard";
 
 const InstituteList = () => {

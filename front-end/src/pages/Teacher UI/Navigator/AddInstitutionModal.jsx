@@ -20,7 +20,7 @@ import {
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { FiFileText, FiMapPin, FiUser } from "react-icons/fi";
-import { AuthContext } from "../../../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import FileUpload from "./FileUpload";
 
 const AddInstitutionModal = ({ onInstituteAdded }) => {

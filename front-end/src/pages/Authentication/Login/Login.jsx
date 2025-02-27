@@ -2,10 +2,10 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
+import frontImg from "../images/frontImg.jpg";
+import { randomQuote } from "../quotes";
 import "./Login.css";
-import frontImg from "./images/frontImg.jpg";
-import { randomQuote } from "./quotes";
 
 const Login = () => {
   const [email, setEmail] = useState("");
