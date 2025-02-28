@@ -31,9 +31,10 @@ const Navbar = () => {
 
   const navItems = [
     "Dashboard",
-    "Navigator",
+    "Departments",
     "Assignments",
     "Favourites",
+    "Institutes",
     "FAQs",
   ];
 

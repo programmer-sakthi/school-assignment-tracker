@@ -7,8 +7,11 @@ import Login from "./pages/Authentication/Login/Login";
 import Signup from "./pages/Authentication/Signup/Signup";
 import PageNotFound from "./pages/Error/PageNotFound";
 import Home from "./pages/Home/Home";
-import InstituteManagement from "./pages/Teacher UI/Navigator/InstituteManagement";
+import InstituteDepartmentsList from "./pages/SampleClass/InstituteDepartmentsList";
+import DepartmentSubjects from "./pages/SampleSubjects/DepartmentSubjects";
 import TeacherDashboard from "./pages/Teacher UI/Dashboard/TeacherDashboard";
+import Navbar from "./pages/Teacher UI/Layout/Navbar";
+import InstituteManagement from "./pages/Teacher UI/Navigator/InstituteManagement";
 
 function App() {
   return (
@@ -27,7 +30,25 @@ function App() {
                 </ProtectedRouting>
               }
             />
-            <Route path="/sample" element={<TeacherDashboard />} />
+            <Route path="/sample1" element={<TeacherDashboard />} />
+            <Route
+              path="/sample2"
+              element={
+                <>
+                  <Navbar />
+                  <InstituteDepartmentsList />
+                </>
+              }
+            />
+            <Route
+              path="/sample3"
+              element={
+                <>
+                  <Navbar />
+                  <DepartmentSubjects />
+                </>
+              }
+            />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>

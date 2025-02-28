@@ -3,6 +3,7 @@ package com.school_assignment_tracker.back_end.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.school_assignment_tracker.back_end.model.Assignment;
@@ -14,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AssignmentService {
 
-    private final AssignmentRepo assignmentRepo;
+    @Autowired
+    private AssignmentRepo assignmentRepo;
 
     public List<Assignment> getAllAssignments() {
         return assignmentRepo.findAll();
