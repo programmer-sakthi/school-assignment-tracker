@@ -11,7 +11,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Select,
   SimpleGrid,
   Spacer,
   Stat,
@@ -24,6 +23,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { ExternalLinkIcon, Search } from "lucide-react";
 import { useState } from "react";
 import {
   FaBook,
@@ -32,7 +32,7 @@ import {
   FaUserGraduate,
 } from "react-icons/fa";
 import AddDepartmentModal from "./AddDepartmentModal"; // Import the modal component
-import { ExternalLinkIcon, SearchIcon } from "lucide-react";
+import InstituteSelect from "./InstituteSelect";
 
 // Sample data - replace with your actual data or API call
 const departmentsData = [
@@ -263,10 +263,15 @@ const InstituteDepartmentsList = () => {
         </HStack>
       </Flex>
 
-      <Flex direction={{ base: "column", md: "row" }} mb={6} gap={4}>
-        <InputGroup>
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        mb={6}
+        gap={4}
+        justifyContent={"space-between"}
+      >
+        <InputGroup width={"400px"}>
           <InputLeftElement pointerEvents="none">
-            <SearchIcon color="gray.400" />
+            <Search />
           </InputLeftElement>
           <Input
             placeholder="Search departments..."
@@ -274,20 +279,12 @@ const InstituteDepartmentsList = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </InputGroup>
-
-        <Select
-          placeholder="Filter by Institute"
-          value={instituteFilter}
-          onChange={(e) => setInstituteFilter(e.target.value)}
-          maxW={{ base: "full", md: "300px" }}
-        >
-          <option value="">All Institutes</option>
-          {institutes.map((institute, index) => (
-            <option key={index} value={institute}>
-              {institute}
-            </option>
-          ))}
-        </Select>
+        <HStack width={"400px"}>
+          <InstituteSelect
+            currentInstitute={instituteFilter}
+            setCurrentInstitute={setInstituteFilter}
+          />
+        </HStack>
       </Flex>
 
       <HStack mb={4} spacing={2}>

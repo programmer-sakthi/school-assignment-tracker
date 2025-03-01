@@ -22,8 +22,6 @@ public class Department {
 
     private String name;
 
-    private String description;
-
     @ManyToOne
     @JsonIgnore
     private Institute institute;

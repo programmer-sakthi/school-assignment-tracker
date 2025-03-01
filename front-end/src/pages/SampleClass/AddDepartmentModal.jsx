@@ -10,19 +10,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
-
-// Sample institutes data with IDs
-const institutesData = [
-  { id: 1, name: "School of Engineering" },
-  { id: 2, name: "School of Sciences" },
-  { id: 3, name: "School of Business" },
-  { id: 4, name: "School of Humanities" },
-  { id: 5, name: "School of Medicine" },
-];
+import InstituteSelect from "./InstituteSelect";
 
 const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment }) => {
   const [formData, setFormData] = useState({
@@ -32,15 +24,15 @@ const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleInstituteChange = (instituteId) => {
+    setFormData({ ...formData, instituteId });
+  };
+
+  const handleSubmit = async () => {
     // Form validation
     if (!formData.name.trim() || !formData.instituteId) {
       toast({
@@ -55,28 +47,17 @@ const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment }) => {
 
     setIsSubmitting(true);
 
-    // Find the selected institute name
-    const selectedInstitute = institutesData.find(
-      (institute) => institute.id === parseInt(formData.instituteId)
-    );
-
-    // Create new department object
-    const newDepartment = {
-      id: Date.now(), // temporary ID (replace with proper ID generation or from API)
-      name: formData.name,
-      instituteId: parseInt(formData.instituteId),
-      institute: selectedInstitute.name,
-      teachers: 0,
-      students: 0,
-      subjects: 0,
-      established: new Date().getFullYear().toString(),
-      headOfDepartment: "",
-    };
-
-    // Call the parent component's function to add the department
-    setTimeout(() => {
-      onAddDepartment(newDepartment);
-      setIsSubmitting(false);
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/departments",
+        formData
+      );
+      await axios.post(
+        "http://localhost:8080/mapDepartmentToInstitute/" +
+          response.data.id +
+          "/" +
+          formData.instituteId
+      );
 
       toast({
         title: "Success",
@@ -85,11 +66,13 @@ const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment }) => {
         duration: 3000,
         isClosable: true,
       });
-
-      // Reset form and close modal
-      setFormData({ name: "", instituteId: "" });
-      onClose();
-    }, 500); // Simulating API call delay
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+    setFormData({ name: "", instituteId: "" });
+    onClose()
+    setIsSubmitting(false);
   };
 
   return (
@@ -106,24 +89,16 @@ const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment }) => {
               name="name"
               placeholder="Enter department name"
               value={formData.name}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </FormControl>
 
           <FormControl isRequired>
             <FormLabel>Institute</FormLabel>
-            <Select
-              name="instituteId"
-              placeholder="Select institute"
-              value={formData.instituteId}
-              onChange={handleChange}
-            >
-              {institutesData.map((institute) => (
-                <option key={institute.id} value={institute.id}>
-                  {institute.name}
-                </option>
-              ))}
-            </Select>
+            <InstituteSelect
+              currentInstitute={formData.instituteId}
+              setCurrentInstitute={handleInstituteChange}
+            />
           </FormControl>
         </ModalBody>
 

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import com.school_assignment_tracker.back_end.model.Department;
 import com.school_assignment_tracker.back_end.services.DepartmentService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class DepartmentController {
 
     @Autowired
@@ -26,9 +29,9 @@ public class DepartmentController {
     }
 
     @PostMapping("/departments")
-    public String addDepartments(@RequestBody Department department) {
+    public ResponseEntity<?> addDepartments(@RequestBody Department department) {
         departmentService.addDepartment(department);
-        return "Department added successfully";
+        return ResponseEntity.ok(department);
     }
 
     @PostMapping("/mapDepartmentToInstitute/{departmentId}/{instituteId}")
