@@ -52,4 +52,9 @@ public class DepartmentService {
         return departmentRepo.findById(id).get();
     }
 
+    public ResponseEntity<?> updateDepartment(Department department) {
+        departmentRepo.save(department);
+        return ResponseEntity.ok("Department updated successfully");
+    }
+
 }

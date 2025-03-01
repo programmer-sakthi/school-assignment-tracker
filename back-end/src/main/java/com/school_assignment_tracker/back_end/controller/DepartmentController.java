@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 // import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,13 @@ public class DepartmentController {
         departmentService.addDepartment(department);
         return ResponseEntity.ok(department);
     }
+
+    @PutMapping("/departments")
+    public ResponseEntity<?> updateDepartments(@RequestBody Department department) {
+        departmentService.updateDepartment(department);
+        return ResponseEntity.ok(department);
+    }
+
 
     @PostMapping("/mapDepartmentToInstitute/{departmentId}/{instituteId}")
     public String mapDepartmentToInstitute(@PathVariable Long departmentId, @PathVariable Long instituteId) {
