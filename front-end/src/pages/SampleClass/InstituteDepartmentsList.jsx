@@ -16,7 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaUniversity } from "react-icons/fa";
 import AddDepartmentModal from "./AddDepartmentModal";
 import DepartmentCard from "./DepartmentCard";
@@ -26,11 +26,9 @@ import InstituteSelect from "./InstituteSelect";
 const InstituteDepartmentsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [instituteFilter, setInstituteFilter] = useState("");
-  const [departmentToEdit, setDepartmentToEdit] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { departments, loading, error } = useFetchDepartment(instituteFilter);
   const toast = useToast();
-
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
@@ -43,7 +41,7 @@ const InstituteDepartmentsList = () => {
   return (
     <Container maxW="container.xl" py={8}>
       <Flex align="center" mb={6}>
-        <Heading>Institute Departments</Heading>
+        <Heading>Departments</Heading>
         <Spacer />
         <HStack spacing={4}>
           <Button

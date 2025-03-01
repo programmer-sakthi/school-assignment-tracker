@@ -59,4 +59,10 @@ public class DepartmentService {
         return ResponseEntity.ok("Department updated successfully");
     }
 
+    public ResponseEntity<?> deleteDepartment(Long id) {
+        departmentRepo.findById(id).get().setInstitute(null);
+        departmentRepo.deleteById(id);
+        return ResponseEntity.ok("Department deleted successfully");
+    }
+
 }

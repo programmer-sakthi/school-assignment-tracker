@@ -1,3 +1,4 @@
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   FormControl,
@@ -16,7 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { EditIcon } from "lucide-react";
+// import { EditIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const UpdateDepartmentModal = ({ department }) => {
