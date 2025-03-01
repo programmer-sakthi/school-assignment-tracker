@@ -1,3 +1,0 @@
-const updateDepartment = async () => {
-    
-};

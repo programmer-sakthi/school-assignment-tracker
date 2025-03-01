@@ -10,70 +10,18 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { useState } from "react";
 import InstituteSelect from "./InstituteSelect";
+import useAddDepartment from "./hooks/useAddDepartment";
 
 const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    instituteId: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const toast = useToast();
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleInstituteChange = (instituteId) => {
-    setFormData({ ...formData, instituteId });
-  };
-
-  const handleSubmit = async () => {
-    // Form validation
-    if (!formData.name.trim() || !formData.instituteId) {
-      toast({
-        title: "Error",
-        description: "Please fill all required fields",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/departments",
-        formData
-      );
-      await axios.post(
-        "http://localhost:8080/mapDepartmentToInstitute/" +
-          response.data.id +
-          "/" +
-          formData.instituteId
-      );
-
-      toast({
-        title: "Success",
-        description: `${formData.name} department has been created`,
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-    } catch (error) {
-      console.log(error);
-      alert(error);
-    }
-    setFormData({ name: "", instituteId: "" });
-    onClose()
-    setIsSubmitting(false);
-  };
+  const {
+    formData,
+    isSubmitting,
+    handleInputChange,
+    handleInstituteChange,
+    handleSubmit,
+  } = useAddDepartment(onClose, onAddDepartment);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">

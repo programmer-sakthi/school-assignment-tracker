@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 // import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,10 +36,10 @@ public class DepartmentController {
         return ResponseEntity.ok(department);
     }
 
-    @PutMapping("/departments")
-    public ResponseEntity<?> updateDepartments(@RequestBody Department department) {
-        departmentService.updateDepartment(department);
-        return ResponseEntity.ok(department);
+    @PutMapping("/departments/{id}/{name}")
+    public ResponseEntity<?> updateDepartments(@PathVariable Long id, @PathVariable String name) {
+        departmentService.updateDepartment(id, name);
+        return ResponseEntity.ok("Department updated successfully");
     }
 
 

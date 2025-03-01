@@ -14,6 +14,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FaBook, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
+import UpdateDepartmentModal from "./UpdateDepartmentModal";
 
 const DepartmentCard = ({ department, onEdit, onDelete }) => {
   const bgColor = useColorModeValue("white", "gray.800");
@@ -32,17 +33,7 @@ const DepartmentCard = ({ department, onEdit, onDelete }) => {
     >
       {/* Action buttons positioned at top right */}
       <Flex position="absolute" top={3} right={3}>
-        <Tooltip label="Edit Department">
-          <IconButton
-            icon={<EditIcon />}
-            size="sm"
-            colorScheme="blue"
-            variant="ghost"
-            aria-label="Edit Department"
-            mr={1}
-            onClick={() => onEdit(department)}
-          />
-        </Tooltip>
+        <UpdateDepartmentModal department={department} />
         <Tooltip label="Delete Department">
           <IconButton
             icon={<DeleteIcon />}
