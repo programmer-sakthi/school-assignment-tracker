@@ -27,7 +27,11 @@ const InstituteDepartmentsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [instituteFilter, setInstituteFilter] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { departments, loading, error } = useFetchDepartment(instituteFilter);
+  const [reloadCounter, setReloadCounter] = useState(0);
+  const { departments, loading, error } = useFetchDepartment(
+    instituteFilter,
+    reloadCounter
+  );
   const toast = useToast();
 
   if (loading) return <Text>Loading...</Text>;
@@ -37,6 +41,8 @@ const InstituteDepartmentsList = () => {
   const filteredDepartments = departments.filter((department) =>
     department.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const onChange = () => setReloadCounter((prev) => prev + 1);
 
   return (
     <Container maxW="container.xl" py={8}>
@@ -95,11 +101,11 @@ const InstituteDepartmentsList = () => {
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
         {filteredDepartments.map((department) => (
-          <DepartmentCard key={department.id} department={department} />
+          <DepartmentCard key={department.id} department={department} onChange={onChange} />
         ))}
       </SimpleGrid>
 
-      <AddDepartmentModal isOpen={isOpen} onClose={onClose} />
+      <AddDepartmentModal isOpen={isOpen} onClose={onClose} onChange={onChange} />
     </Container>
   );
 };

@@ -5,7 +5,7 @@ import {
   mapDepartmentToInstitute,
 } from "../services/addDepartment";
 
-const useAddDepartment = (onClose, onAddDepartment) => {
+const useAddDepartment = (onClose, onAddDepartment, onChange) => {
   const [formData, setFormData] = useState({
     name: "",
     instituteId: "",
@@ -47,6 +47,7 @@ const useAddDepartment = (onClose, onAddDepartment) => {
         duration: 3000,
         isClosable: true,
       });
+      onChange();
 
       // Call onAddDepartment callback if provided
       if (onAddDepartment) {

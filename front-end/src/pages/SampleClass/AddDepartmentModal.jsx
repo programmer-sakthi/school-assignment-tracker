@@ -14,14 +14,14 @@ import {
 import InstituteSelect from "./InstituteSelect";
 import useAddDepartment from "./hooks/useAddDepartment";
 
-const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment }) => {
+const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment , onChange }) => {
   const {
     formData,
     isSubmitting,
     handleInputChange,
     handleInstituteChange,
     handleSubmit,
-  } = useAddDepartment(onClose, onAddDepartment);
+  } = useAddDepartment(onClose, onAddDepartment,onChange);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">

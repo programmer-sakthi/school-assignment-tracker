@@ -17,7 +17,7 @@ import { FaBook, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
 import UpdateDepartmentModal from "./UpdateDepartmentModal";
 import DeleteInstitute from "./DeleteInstitute";
 
-const DepartmentCard = ({ department, onEdit, onDelete }) => {
+const DepartmentCard = ({ department, onEdit, onDelete , onChange }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
 
@@ -34,8 +34,8 @@ const DepartmentCard = ({ department, onEdit, onDelete }) => {
     >
       {/* Action buttons positioned at top right */}
       <Flex position="absolute" top={3} right={3}>
-        <UpdateDepartmentModal department={department} />
-        <DeleteInstitute department={department}/>
+        <UpdateDepartmentModal department={department} onChange={onChange}/>
+        <DeleteInstitute department={department} onChange={onChange}/>
       </Flex>
 
       <Heading fontSize="xl" mb={3}>

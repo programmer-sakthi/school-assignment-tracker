@@ -20,7 +20,7 @@ import axios from "axios";
 // import { EditIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const UpdateDepartmentModal = ({ department }) => {
+const UpdateDepartmentModal = ({ department , onChange }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState({ name: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,6 +53,7 @@ const UpdateDepartmentModal = ({ department }) => {
         duration: 5000,
         isClosable: true,
       });
+      onChange()
     } catch (err) {
       console.log(err);
     }
