@@ -1,25 +1,25 @@
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
   Flex,
   Heading,
   Icon,
-  IconButton,
   Stat,
   StatGroup,
   StatLabel,
   StatNumber,
-  Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FaBook, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
-import UpdateDepartmentModal from "./UpdateDepartmentModal";
+import { useNavigate } from "react-router-dom";
 import DeleteInstitute from "./DeleteInstitute";
+import UpdateDepartmentModal from "./UpdateDepartmentModal";
 
-const DepartmentCard = ({ department, onEdit, onDelete , onChange }) => {
+const DepartmentCard = ({ department, onEdit, onDelete, onChange }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
+
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -34,8 +34,8 @@ const DepartmentCard = ({ department, onEdit, onDelete , onChange }) => {
     >
       {/* Action buttons positioned at top right */}
       <Flex position="absolute" top={3} right={3}>
-        <UpdateDepartmentModal department={department} onChange={onChange}/>
-        <DeleteInstitute department={department} onChange={onChange}/>
+        <UpdateDepartmentModal department={department} onChange={onChange} />
+        <DeleteInstitute department={department} onChange={onChange} />
       </Flex>
 
       <Heading fontSize="xl" mb={3}>
@@ -65,7 +65,12 @@ const DepartmentCard = ({ department, onEdit, onDelete , onChange }) => {
         </Stat>
       </StatGroup>
 
-      <Button size="sm" colorScheme="blue" mt={4}>
+      <Button
+        size="sm"
+        colorScheme="blue"
+        mt={4}
+        onClick={() => navigate("/subjects")}
+      >
         View Department
       </Button>
     </Box>

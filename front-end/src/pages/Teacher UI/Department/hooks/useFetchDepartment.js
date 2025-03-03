@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchDepartment } from "../services/fetchDepartment";
 
-const useFetchDepartment = (instituteId,reloadCounter) => {
+const useFetchDepartment = (instituteId, reloadCounter) => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -23,7 +23,7 @@ const useFetchDepartment = (instituteId,reloadCounter) => {
     };
 
     getDepartments();
-  }, [instituteId,reloadCounter]);
+  }, [instituteId, reloadCounter]);
 
   return { departments, loading, error };
 };

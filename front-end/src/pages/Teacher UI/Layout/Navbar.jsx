@@ -15,9 +15,9 @@ import {
   useColorMode,
   useToast,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaCog, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -26,20 +26,31 @@ const Navbar = () => {
 
   const navigate = useNavigate();
   const toast = useToast();
+  const location = useLocation(); // Hook to get the current location (path)
 
   const { onLogout } = useContext(AuthContext);
 
   const navItems = [
-    "Dashboard",
-    "Departments",
-    "Assignments",
-    "Favourites",
-    "Institutes",
-    "FAQs",
+    { label: "Dashboard", route: "/dashboard" },
+    { label: "Departments", route: "/departments" },
+    { label: "Assignments", route: "/assignments" },
+    { label: "Favourites", route: "/favourites" },
+    { label: "Institutes", route: "/institutes" },
+    { label: "FAQs", route: "/faqs" },
   ];
 
+  // Update selectedItem based on the current route
+  useEffect(() => {
+    const currentRoute = location.pathname;
+    const currentItem = navItems.find((item) => item.route === currentRoute);
+    if (currentItem) {
+      setSelectedItem(currentItem.label);
+    }
+  }, [location, navItems]); // Re-run effect when location changes
+
   const handleNavItemClick = (item) => {
-    setSelectedItem(item);
+    setSelectedItem(item.label);
+    navigate(item.route); // Navigate to the corresponding route
   };
 
   return (
@@ -70,15 +81,15 @@ const Navbar = () => {
       <HStack spacing={8} display={{ base: "none", md: "flex" }}>
         {navItems.map((item) => (
           <Link
-            key={item}
-            onClick={() => handleNavItemClick(item)}
+            key={item.label}
+            onClick={() => handleNavItemClick(item)} // Handle navigation
             position="relative"
             _hover={{ textDecoration: "none" }}
           >
             <Text
-              fontWeight={selectedItem === item ? "bold" : "normal"}
+              fontWeight={selectedItem === item.label ? "bold" : "normal"}
               color={
-                selectedItem === item
+                selectedItem === item.label
                   ? isDark
                     ? "blue.300"
                     : "blue.500"
@@ -87,9 +98,9 @@ const Navbar = () => {
               _hover={{ color: isDark ? "blue.300" : "blue.500" }}
               cursor="pointer"
             >
-              {item}
+              {item.label}
             </Text>
-            {selectedItem === item && (
+            {selectedItem === item.label && (
               <Flex
                 position="absolute"
                 bottom="-10px"
@@ -149,16 +160,14 @@ const Navbar = () => {
               _hover={{ bg: isDark ? "gray.600" : "gray.100" }}
               onClick={() => {
                 onLogout();
-                navigate("/");
-                toast(
-                  {
-                    title: "Logged out successfully",
-                    status: "info",
-                    duration: 3000,
-                    isClosable: true,
-                  },
-                  { position: "bottom-right" }
-                );
+                navigate("/"); // Navigate to the home page on logout
+                toast({
+                  title: "Logged out successfully",
+                  status: "info",
+                  duration: 3000,
+                  isClosable: true,
+                  position: "bottom-right",
+                });
               }}
             >
               Logout

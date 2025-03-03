@@ -11,17 +11,17 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import InstituteSelect from "./InstituteSelect";
 import useAddDepartment from "./hooks/useAddDepartment";
+import InstituteSelect from "./InstituteSelect";
 
-const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment , onChange }) => {
+const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment, onChange }) => {
   const {
     formData,
     isSubmitting,
     handleInputChange,
     handleInstituteChange,
     handleSubmit,
-  } = useAddDepartment(onClose, onAddDepartment,onChange);
+  } = useAddDepartment(onClose, onAddDepartment, onChange);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">
