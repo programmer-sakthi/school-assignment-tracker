@@ -238,7 +238,7 @@ const TeacherDashboard = () => {
 
   return (
     <Layout>
-      <Box p={5} minH="100vh" bg={useColorModeValue("gray.50", "gray.900")} margin={"20"} marginTop={"7"}>
+      <Box p={5} minH="100vh" bg={useColorModeValue("gray.50", "wgray.900")} margin={"20"} marginTop={"7"}>
         {/* Header */}
         <Flex mb={6} justify="space-between" align="center">
           <Box>

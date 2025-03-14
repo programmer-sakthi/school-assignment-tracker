@@ -1,4 +1,14 @@
-import { Badge, Box, Button, Flex, Heading, HStack, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import AddSubjectModal from "./AddSubjectModal";
 
 const DepartmentHeader = ({ department, viewType, setViewType }) => {
   const textColor = useColorModeValue("gray.900", "white");
@@ -28,6 +38,8 @@ const DepartmentHeader = ({ department, viewType, setViewType }) => {
           </Badge>
         </HStack>
       </Box>
+
+      <AddSubjectModal />
 
       <HStack spacing={2}>
         <Button

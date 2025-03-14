@@ -35,7 +35,7 @@ const DepartmentSubjects = () => {
       name: "Introduction to Programming",
       professor: "Dr. Alan Turing",
       assignments: 8,
-      color: "blue",
+      color: "#0000ff",
     },
     {
       id: 2,
@@ -43,7 +43,7 @@ const DepartmentSubjects = () => {
       name: "Data Structures",
       professor: "Dr. Ada Lovelace",
       assignments: 12,
-      color: "green",
+      color: "#000000",
     },
     {
       id: 3,
