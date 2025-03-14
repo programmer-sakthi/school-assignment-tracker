@@ -18,19 +18,47 @@ const DocumentIcon = () => (
   </Box>
 );
 
-// Re-using helper function for badge colors
-const getBadgeProps = (colorName) => {
-  const colorMap = {
-    blue: { colorScheme: "blue" },
-    green: { colorScheme: "green" },
-    purple: { colorScheme: "purple" },
-    orange: { colorScheme: "orange" },
-    red: { colorScheme: "red" },
-    teal: { colorScheme: "teal" },
-    pink: { colorScheme: "pink" },
-    yellow: { colorScheme: "yellow" },
-  };
-  return colorMap[colorName] || { colorScheme: "gray" };
+const isHexColor = (color) => {
+  return typeof color === "string" && color.startsWith("#");
+};
+
+const SubjectBadge = ({ color, children }) => {
+  if (isHexColor(color)) {
+    // For hex colors, we need to define custom styles
+    return (
+      <Badge
+        px={2}
+        py={1}
+        borderRadius="md"
+        fontSize="xs"
+        fontWeight="medium"
+        bg={`${color}20`} // Adding 20 for opacity to create a lighter background
+        color={color}
+        minWidth="70px" // Set a minimum width
+        textAlign="center" // Center the text
+        display="inline-block" // Ensure consistent box model
+      >
+        {children}
+      </Badge>
+    );
+  }
+
+  // For named colors, we can use Chakra's colorScheme
+  return (
+    <Badge
+      colorScheme={color}
+      px={2}
+      py={1}
+      borderRadius="md"
+      fontSize="xs"
+      fontWeight="medium"
+      minWidth="70px" // Set a minimum width
+      textAlign="center" // Center the text
+      display="inline-block" // Ensure consistent box model
+    >
+      {children}
+    </Badge>
+  );
 };
 
 const SubjectListItem = ({ subject, isLast }) => {
@@ -51,32 +79,25 @@ const SubjectListItem = ({ subject, isLast }) => {
       transition="background 0.2s"
     >
       <Flex alignItems="center">
-        <Badge
-          {...getBadgeProps(subject.color)}
-          px={2}
-          py={1}
-          borderRadius="md"
-          fontSize="xs"
-          fontWeight="medium"
-          mr={3}
-          minW="64px"
-          textAlign="center"
-        >
-          {subject.code}
-        </Badge>
+        <Box width="80px" marginRight={3}>
+          {" "}
+          <SubjectBadge color={subject.colorCode}>
+            {subject.subjectCode}
+          </SubjectBadge>
+        </Box>
         <Box>
           <Text fontWeight="medium" color={textColor}>
-            {subject.name}
+            {subject.subjectName}
           </Text>
           <Text fontSize="sm" color={subTextColor}>
-            {subject.professor}
+            {"Sample professor"}
           </Text>
         </Box>
       </Flex>
       <Flex alignItems="center" color={subTextColor}>
         <DocumentIcon />
         <Text fontSize="sm" ml={1}>
-          {subject.assignments} assignments
+          {subject.assignments || 0} assignments
         </Text>
       </Flex>
     </Box>

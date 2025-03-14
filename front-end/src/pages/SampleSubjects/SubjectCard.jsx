@@ -84,8 +84,12 @@ const SubjectCard = ({ subject }) => {
   const subTextColor = useColorModeValue("gray.600", "gray.400");
   const cardHoverBg = useColorModeValue("gray.50", "gray.700");
 
+  //static data
+  const sampleProf = "Sample Prof"
+  const sampleAssignment = 12
+
   // Get the color for the top bar
-  const topBarColor = getTopBarColor(subject.color);
+  const topBarColor = getTopBarColor(subject.colorCode);
 
   return (
     <Card
@@ -100,23 +104,23 @@ const SubjectCard = ({ subject }) => {
       <Box h="2px" bg={topBarColor}></Box>
       <CardBody p={5}>
         <Flex justifyContent="space-between" alignItems="start" mb={3}>
-          <SubjectBadge color={subject.color}>{subject.code}</SubjectBadge>
-          <Tooltip label={`${subject.assignments} assignments`}>
+          <SubjectBadge color={subject.colorCode}>{subject.subjectCode}</SubjectBadge>
+          <Tooltip label={`${sampleAssignment} assignments`}>
             <Flex alignItems="center" color={subTextColor}>
               <DocumentIcon />
               <Text ml={1} fontSize="sm">
-                {subject.assignments}
+                {sampleAssignment}
               </Text>
             </Flex>
           </Tooltip>
         </Flex>
         <Heading fontSize="lg" fontWeight="bold" mb={2} color={textColor}>
-          {subject.name}
+          {subject.subjectName}
         </Heading>
         <Flex alignItems="center" mt={4}>
-          <Avatar size="sm" name={subject.professor} mr={2} />
+          <Avatar size="sm" name={sampleProf} mr={2} />
           <Text fontSize="sm" color={subTextColor}>
-            {subject.professor}
+            {sampleProf}
           </Text>
         </Flex>
       </CardBody>
