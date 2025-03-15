@@ -9,16 +9,18 @@ import {
 import { useEffect, useState } from "react";
 import Layout from "../Teacher UI/Layout/Layout";
 import BreadcrumbNav from "./BreadcrumbNav";
-import DepartmentHeader from "./DepartmentHeader";
+
 import EmptyState from "./EmptyState";
 import SearchBar from "./SearchBar";
 import SubjectCard from "./SubjectCard";
 import SubjectListItem from "./SubjectList";
 import { getSubjects } from "./services/fetchSubjects";
+import DepartmentHeader from "./DepartmentHeader";
 
 const DepartmentSubjects = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewType, setViewType] = useState("grid");
+  const [refreshCounter, setRefreshCounter] = useState(0);
   const { colorMode } = useColorMode();
 
   const [subjects, setSubjects] = useState([]);
@@ -37,7 +39,7 @@ const DepartmentSubjects = () => {
     try {
       const subjectData = await getSubjects();
       setSubjects(subjectData);
-      console.log(subjectData)
+      console.log(subjectData);
     } catch (error) {
       console.error("Error fetching subjects:", error);
       setSubjects([]);
@@ -46,9 +48,13 @@ const DepartmentSubjects = () => {
     }
   };
 
+  const onSubjectsChange = () => {
+    setRefreshCounter((prevCounter) => prevCounter + 1);
+  };
+
   useEffect(() => {
     fetchSubjects();
-  }, []);
+  }, [refreshCounter]);
 
   const filteredSubjects = subjects.filter((subject) => {
     if (!subject) return false;
@@ -56,8 +62,10 @@ const DepartmentSubjects = () => {
     const query = searchQuery.toLowerCase();
 
     return (
-      (subject.subjectName && subject.subjectName.toLowerCase().includes(query)) ||
-      (subject.subjectCode && subject.subjectCode.toLowerCase().includes(query)) ||
+      (subject.subjectName &&
+        subject.subjectName.toLowerCase().includes(query)) ||
+      (subject.subjectCode &&
+        subject.subjectCode.toLowerCase().includes(query)) ||
       (subject.professor && subject.professor.toLowerCase().includes(query))
     );
   });
@@ -81,6 +89,7 @@ const DepartmentSubjects = () => {
                 department={department}
                 viewType={viewType}
                 setViewType={setViewType}
+                onCreate={onSubjectsChange}
               />
 
               <SearchBar
@@ -94,7 +103,11 @@ const DepartmentSubjects = () => {
                   spacing={6}
                 >
                   {filteredSubjects.map((subject) => (
-                    <SubjectCard key={subject.id} subject={subject} />
+                    <SubjectCard
+                      key={subject.id}
+                      subject={subject}
+                      onDelete={onSubjectsChange}
+                    />
                   ))}
                 </SimpleGrid>
               ) : (

@@ -19,7 +19,7 @@ import { useState } from "react";
 import ColorPicker from "./components/colorPicker";
 import { createSubject } from "./services/addSubject";
 
-const AddSubjectModal = () => {
+const AddSubjectModal = ({onCreate}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [subjectName, setSubjectName] = useState("");
   const [subjectCode, setSubjectCode] = useState("");
@@ -48,6 +48,7 @@ const AddSubjectModal = () => {
         duration: 5000,
         isClosable: true,
       });
+      onCreate()
 
       // Reset form and close modal
       setSubjectName("");

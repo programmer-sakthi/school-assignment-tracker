@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import AddSubjectModal from "./AddSubjectModal";
 
-const DepartmentHeader = ({ department, viewType, setViewType }) => {
+const DepartmentHeader = ({ department, viewType, setViewType , onCreate }) => {
   const textColor = useColorModeValue("gray.900", "white");
   const subTextColor = useColorModeValue("gray.600", "gray.400");
 
@@ -39,7 +39,7 @@ const DepartmentHeader = ({ department, viewType, setViewType }) => {
         </HStack>
       </Box>
 
-      <AddSubjectModal />
+      <AddSubjectModal onCreate={onCreate} />
 
       <HStack spacing={2}>
         <Button

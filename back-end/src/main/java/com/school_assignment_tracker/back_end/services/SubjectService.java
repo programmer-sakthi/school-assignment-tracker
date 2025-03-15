@@ -25,5 +25,12 @@ public class SubjectService {
         subjectRepo.save(subject);
         return ResponseEntity.ok("Subject created successfully");
     }
+
+
+    public ResponseEntity<?> deleteSubject(Long subjectId) {
+        Subject subject = subjectRepo.findById(subjectId).get();
+        subjectRepo.delete(subject);
+        return ResponseEntity.ok("Deletion successful");
+    }
     
 }

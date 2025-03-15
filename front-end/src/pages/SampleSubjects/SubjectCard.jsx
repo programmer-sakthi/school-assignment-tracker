@@ -2,14 +2,19 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   Card,
   CardBody,
   Flex,
   Heading,
+  Icon,
   Text,
   Tooltip,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
+import { FiEdit, FiTrash2 } from "react-icons/fi"; // Importing icons from react-icons
+import { handleDelete } from "./services/deleteSubject";
 
 const DocumentIcon = () => (
   <Box as="span" w={5} h={5}>
@@ -37,16 +42,14 @@ const isHexColor = (color) => {
 // Function to handle the top color bar
 const getTopBarColor = (color) => {
   if (isHexColor(color)) {
-    return color; // Return the hex color directly
+    return color;
   }
-  // Return a template string for theme colors
   return `${color}.500`;
 };
 
 // Function to create Badge based on color type
 const SubjectBadge = ({ color, children }) => {
   if (isHexColor(color)) {
-    // For hex colors, we need to define custom styles
     return (
       <Badge
         px={2}
@@ -54,7 +57,7 @@ const SubjectBadge = ({ color, children }) => {
         borderRadius="md"
         fontSize="xs"
         fontWeight="medium"
-        bg={`${color}20`} // Adding 20 for opacity to create a lighter background
+        bg={`${color}20`}
         color={color}
       >
         {children}
@@ -62,7 +65,6 @@ const SubjectBadge = ({ color, children }) => {
     );
   }
 
-  // For named colors, we can use Chakra's colorScheme
   return (
     <Badge
       colorScheme={color}
@@ -77,19 +79,37 @@ const SubjectBadge = ({ color, children }) => {
   );
 };
 
-const SubjectCard = ({ subject }) => {
+const SubjectCard = ({ subject, onUpdate, onDelete }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const textColor = useColorModeValue("gray.900", "white");
   const subTextColor = useColorModeValue("gray.600", "gray.400");
   const cardHoverBg = useColorModeValue("gray.50", "gray.700");
 
-  //static data
-  const sampleProf = "Sample Prof"
-  const sampleAssignment = 12
+  const toast = useToast();
+  // Static data
+  const sampleProf = "Sample Prof";
+  const sampleAssignment = 12;
+  const topBarColor = getTopBarColor(subject.colorCode);
+
+  const handleSubjectDelete = async () => {
+    try {
+      await handleDelete(subject.id);
+
+      toast({
+        title: "Success",
+        description: "Subject deleted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      onDelete()
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   // Get the color for the top bar
-  const topBarColor = getTopBarColor(subject.colorCode);
 
   return (
     <Card
@@ -104,7 +124,9 @@ const SubjectCard = ({ subject }) => {
       <Box h="2px" bg={topBarColor}></Box>
       <CardBody p={5}>
         <Flex justifyContent="space-between" alignItems="start" mb={3}>
-          <SubjectBadge color={subject.colorCode}>{subject.subjectCode}</SubjectBadge>
+          <SubjectBadge color={subject.colorCode}>
+            {subject.subjectCode}
+          </SubjectBadge>
           <Tooltip label={`${sampleAssignment} assignments`}>
             <Flex alignItems="center" color={subTextColor}>
               <DocumentIcon />
@@ -122,6 +144,32 @@ const SubjectCard = ({ subject }) => {
           <Text fontSize="sm" color={subTextColor}>
             {sampleProf}
           </Text>
+        </Flex>
+        <Flex justifyContent="flex-end" mt={4} gap={2}>
+          <Tooltip label="Update">
+            <Button
+              size="sm"
+              colorScheme="blue"
+              variant="outline"
+              onClick={() => onUpdate(subject)}
+              aria-label="Update subject"
+            >
+              <Icon as={FiEdit} />
+            </Button>
+          </Tooltip>
+          <Tooltip label="Delete">
+            <Button
+              size="sm"
+              colorScheme="red"
+              variant="outline"
+              onClick={() => {
+                handleSubjectDelete();
+              }}
+              aria-label="Delete subject"
+            >
+              <Icon as={FiTrash2} />
+            </Button>
+          </Tooltip>
         </Flex>
       </CardBody>
     </Card>
