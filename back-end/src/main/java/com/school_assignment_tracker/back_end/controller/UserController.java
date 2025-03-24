@@ -71,7 +71,7 @@ public class UserController {
         }
 
     }
-
+    
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

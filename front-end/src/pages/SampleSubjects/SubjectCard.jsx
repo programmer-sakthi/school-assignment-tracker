@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { FiEdit, FiTrash2 } from "react-icons/fi"; // Importing icons from react-icons
 import { handleDelete } from "./services/deleteSubject";
+import UpdateSubjectModal from "./UpdateSubjectModal";
 
 const DocumentIcon = () => (
   <Box as="span" w={5} h={5}>
@@ -146,17 +147,7 @@ const SubjectCard = ({ subject, onUpdate, onDelete }) => {
           </Text>
         </Flex>
         <Flex justifyContent="flex-end" mt={4} gap={2}>
-          <Tooltip label="Update">
-            <Button
-              size="sm"
-              colorScheme="blue"
-              variant="outline"
-              onClick={() => onUpdate(subject)}
-              aria-label="Update subject"
-            >
-              <Icon as={FiEdit} />
-            </Button>
-          </Tooltip>
+          <UpdateSubjectModal subject={subject} onUpdate={onDelete} />
           <Tooltip label="Delete">
             <Button
               size="sm"

@@ -46,5 +46,12 @@ public class SubjectController {
         return subjectService.deleteSubject(subjectId);
     }    
 
+    @PutMapping("/{subjectId}")
+    public ResponseEntity<?> updateSubject(@PathVariable Long subjectId,@RequestBody Subject subject)
+    {
+        return subjectService.updateSubject(subjectId,subject);
+    }
+
+
 }
     
