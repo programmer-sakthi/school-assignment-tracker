@@ -49,7 +49,6 @@ const AddDepartmentModal = ({ isOpen, onClose, onAddDepartment, onChange }) => {
             />
           </FormControl>
         </ModalBody>
-
         <ModalFooter>
           <Button
             colorScheme="green"
